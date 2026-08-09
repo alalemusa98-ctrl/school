@@ -1,40 +1,28 @@
 <template>
-  <div class="schedule-page">
-    <AppNavbar />
+  <StudentLayout pageTitle="🗓️ الجدول الدراسي الأسبوعي لشعبتك">
+    <div v-if="loading" class="glass-box loading-box">جاري استرجاع جدول الحصص... ⏳</div>
+    <div v-else class="days-container">
+      <div v-for="day in daysOfWeek" :key="day.id" class="day-group-glass">
+        <h3 class="day-title">📅 {{ day.name }}</h3>
 
-    <main class="container page-content">
-      <div class="page-header">
-        <BaseButton variant="outline" size="sm" @click="$router.push('/student')">
-          👉 العودة للرئيسية
-        </BaseButton>
-        <h2>🗓️ الجدول الدراسي الأسبوعي لشعبتك</h2>
-      </div>
-
-      <div v-if="loading" class="loading-box">جاري استرجاع جدول الحصص... ⏳</div>
-      <div v-else class="days-container">
-        <div v-for="day in daysOfWeek" :key="day.id" class="day-group">
-          <h3 class="day-title">📅 {{ day.name }}</h3>
-          
-          <div v-if="getSlotsForDay(day.id).length === 0" class="no-classes">
-            لا توجد حصص محددة هذا اليوم ☀️
-          </div>
-          <div v-else class="slots-grid">
-            <ScheduleCard 
-              v-for="slot in getSlotsForDay(day.id)" 
-              :key="slot.id" 
-              :slot="slot" 
-            />
-          </div>
+        <div v-if="getSlotsForDay(day.id).length === 0" class="no-classes">
+          لا توجد حصص محددة هذا اليوم ☀️
+        </div>
+        <div v-else class="slots-grid">
+          <ScheduleCard 
+            v-for="slot in getSlotsForDay(day.id)" 
+            :key="slot.id" 
+            :slot="slot" 
+          />
         </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </StudentLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import AppNavbar from '../../components/common/AppNavbar.vue';
-import BaseButton from '../../components/common/BaseButton.vue';
+import StudentLayout from '../../components/student/StudentLayout.vue';
 import ScheduleCard from '../../components/student/ScheduleCard.vue';
 import api from '../../services/api';
 
@@ -68,60 +56,47 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.page-content {
-  padding-top: 24px;
-}
-
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.page-header h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.loading-box {
-  background: #ffffff;
+.glass-box {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border: 3px solid #ffffff;
   padding: 40px;
-  border-radius: var(--radius-md);
+  border-radius: 28px;
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: 2px dashed #cbd5e1;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .days-container {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
-.day-group {
-  background: #ffffff;
-  border-radius: var(--radius-lg);
+.day-group-glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 3px solid #ffffff;
+  border-radius: 24px;
   padding: 20px 24px;
-  box-shadow: var(--shadow-sm);
-  border: 2px solid var(--border-light);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .day-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--primary-color);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #2b6cb0;
   margin-bottom: 16px;
   padding-bottom: 8px;
-  border-bottom: 2px solid #e0e7ff;
+  border-bottom: 2px stroke #bee3f8;
 }
 
 .no-classes {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  font-weight: 600;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .slots-grid {

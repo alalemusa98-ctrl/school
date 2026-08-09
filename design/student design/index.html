@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>واجهة الطالب - مدرسة النور</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Header (iOS Mobile App Architecture Inspired by Image) -->
+  <header class="ios-header">
+    <!-- Gradient Top Header Banner -->
+    <div class="ios-header-banner">
+      <!-- Status Bar -->
+      <div class="ios-status-bar">
+        <span class="ios-time">9:41</span>
+        <div class="ios-dynamic-island">
+          <div class="camera-lens"></div>
+        </div>
+        <div class="ios-status-icons">
+          <svg width="15" height="11" viewBox="0 0 18 12" fill="currentColor">
+            <rect x="0" y="8" width="3" height="4" rx="0.5" />
+            <rect x="5" y="6" width="3" height="6" rx="0.5" />
+            <rect x="10" y="3" width="3" height="9" rx="0.5" />
+            <rect x="15" y="0" width="3" height="12" rx="0.5" />
+          </svg>
+          <svg width="14" height="11" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 3C7.5 3 3.7 4.9 1 8l2.5 3C5.7 8.6 8.7 7 12 7s6.3 1.6 8.5 4L23 8c-2.7-3.1-6.5-5-11-5zm0 6c-3.1 0-5.8 1.3-7.7 3.4l2.5 3C8.2 13.9 10 13 12 13s3.8.9 5.2 2.4l2.5-3C17.8 10.3 15.1 9 12 9zm0 6c-1.4 0-2.6.6-3.5 1.6L12 20l3.5-3.4C14.6 15.6 13.4 15 12 15z" />
+          </svg>
+          <svg width="20" height="11" viewBox="0 0 24 12" fill="currentColor">
+            <rect x="1" y="1" width="19" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" />
+            <rect x="3" y="3" width="13" height="6" rx="1" />
+            <path d="M22 4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Navigation Top Bar -->
+      <div class="ios-nav-bar">
+        <button class="glass-icon-btn" title="رجوع">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+
+        <h1 class="ios-nav-title">تفاصيل المدرسة</h1>
+
+        <div class="ios-nav-actions">
+          <button class="glass-icon-btn" title="مشاركة">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </button>
+          <button class="glass-icon-btn" title="المفضلة">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+              </path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Overlapping Hero Card -->
+    <div class="ios-hero-card">
+      <div class="hero-card-header">
+        <div class="hero-avatar-wrapper">
+          <div class="hero-avatar">🏫</div>
+          <span class="hero-status-dot"></span>
+        </div>
+
+        <div class="hero-info">
+          <h2 class="hero-title">مدرسة النور الإعدادية</h2>
+          <p class="hero-subtitle">تعليم أساسي - بنغازي، ليبيا</p>
+          <p class="hero-tag">قسم المرحلة الإعدادية والنموذجية</p>
+        </div>
+      </div>
+
+      <!-- 3 Key Stats Counters -->
+      <div class="hero-stats-row">
+        <div class="stat-item">
+          <div class="stat-icon-val">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span class="stat-val">8+</span>
+          </div>
+          <span class="stat-lbl">المواد الدراسية</span>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-item">
+          <div class="stat-icon-val">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span class="stat-val">350+</span>
+          </div>
+          <span class="stat-lbl">عدد الطلاب</span>
+        </div>
+
+        <div class="stat-divider"></div>
+
+        <div class="stat-item">
+          <div class="stat-icon-val">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.2">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+              </polygon>
+            </svg>
+            <span class="stat-val">4.9</span>
+          </div>
+          <span class="stat-lbl">تقييم المدرسة</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Attendance / Days Calendar Strip Section (Inspired by Image) -->
+  <section class="attendance-section">
+    <div class="attendance-content">
+      <div class="days-row">
+        <div class="day-card">
+          <span class="day-name">أحد</span>
+          <span class="day-date">18</span>
+        </div>
+
+        <div class="day-card active">
+          <span class="day-name">إثن</span>
+          <span class="day-date">19</span>
+        </div>
+
+        <div class="day-card">
+          <span class="day-name">ثلا</span>
+          <span class="day-date">20</span>
+        </div>
+
+        <div class="day-card">
+          <span class="day-name">أرب</span>
+          <span class="day-date">21</span>
+        </div>
+
+        <div class="day-card">
+          <span class="day-name">خمي</span>
+          <span class="day-date">22</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cards Grid (Elite Modern Architecture) -->
+  <main class="cards-container">
+
+    <!-- الواجبات -->
+    <div class="card homework" onclick="goTo('homework')">
+      <img src="صور/واجبات.png" alt="الواجبات" class="card-bg" />
+      <div class="card-overlay"></div>
+      <div class="card-badge warning">1 معلق</div>
+      <div class="card-content">
+        <h3>الواجبات</h3>
+        <p>متابعة المهام المطلوبة والواجبات اليومية</p>
+        <div class="card-link-btn">
+          <span>عرض المهام</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- الامتحانات -->
+    <div class="card exams" onclick="goTo('exams')">
+      <img src="صور/امتحانات.png" alt="الامتحانات" class="card-bg" />
+      <div class="card-overlay"></div>
+      <div class="card-badge danger">3 قادمة</div>
+      <div class="card-content">
+        <h3>الامتحانات</h3>
+        <p>جدول الامتحانات والاختبارات الشهرية</p>
+        <div class="card-link-btn">
+          <span>عرض الجدول</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- المواد الدراسية -->
+    <div class="card subjects" onclick="goTo('subjects')">
+      <img src="صور/مواد.png" alt="المواد الدراسية" class="card-bg" />
+      <div class="card-overlay"></div>
+      <div class="card-badge info">8 مواد</div>
+      <div class="card-content">
+        <h3>المواد الدراسية</h3>
+        <p>المناهج والملخصات التعليمية المتاحة</p>
+        <div class="card-link-btn">
+          <span>استكشاف المواد</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- الجدول الأسبوعي -->
+    <div class="card schedule" onclick="goTo('schedule')">
+      <img src="صور/جدول.png" alt="الجدول الأسبوعي" class="card-bg" />
+      <div class="card-overlay"></div>
+      <div class="card-badge success">اليوم: الأحد</div>
+      <div class="card-content">
+        <h3>الجدول الأسبوعي</h3>
+        <p>توزيع الحصص اليومية والمعلمين</p>
+        <div class="card-link-btn">
+          <span>عرض الحصص</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <!-- Bottom Navigation (Dribbble Floating Pill Dock) -->
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item active" data-page="home">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </div>
+      <span class="nav-text">الرئيسية</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="subjects">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+      </div>
+      <span class="nav-text">المواد</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="schedule">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+      <span class="nav-text">الجدول</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="notifications">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </div>
+      <span class="nav-text">التنبيهات</span>
+    </a>
+
+    <a href="#" class="nav-item" data-page="profile">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </div>
+      <span class="nav-text">حسابي</span>
+    </a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

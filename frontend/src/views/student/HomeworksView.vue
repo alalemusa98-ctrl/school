@@ -1,30 +1,18 @@
 <template>
-  <div class="homeworks-page">
-    <AppNavbar />
-
-    <main class="container page-content">
-      <div class="page-header">
-        <BaseButton variant="outline" size="sm" @click="$router.push('/student')">
-          👉 العودة للرئيسية
-        </BaseButton>
-        <h2>📚 الواجبات المدرسية المطلوب كتابتها وحلها</h2>
-      </div>
-
-      <div v-if="loading" class="loading-box">جاري استرجاع الواجبات المدرسية... ⏳</div>
-      <div v-else-if="homeworks.length === 0" class="empty-box">
-        🎉 رائع جداً! لا توجد واجبات منزلية متأخرة لشعبتك حالياً.
-      </div>
-      <div v-else class="tasks-grid">
-        <TaskCard v-for="task in homeworks" :key="task.id" :task="task" />
-      </div>
-    </main>
-  </div>
+  <StudentLayout pageTitle="📚 الواجبات المدرسية المطلوب حلها">
+    <div v-if="loading" class="glass-box loading-box">جاري استرجاع الواجبات المدرسية... ⏳</div>
+    <div v-else-if="homeworks.length === 0" class="glass-box empty-box">
+      🎉 رائع جداً! لا توجد واجبات منزلية متأخرة لشعبتك حالياً. أنت ممتاز!
+    </div>
+    <div v-else class="tasks-grid">
+      <TaskCard v-for="task in homeworks" :key="task.id" :task="task" />
+    </div>
+  </StudentLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import AppNavbar from '../../components/common/AppNavbar.vue';
-import BaseButton from '../../components/common/BaseButton.vue';
+import StudentLayout from '../../components/student/StudentLayout.vue';
 import TaskCard from '../../components/student/TaskCard.vue';
 import api from '../../services/api';
 
@@ -46,30 +34,22 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.page-content {
-  padding-top: 24px;
-}
-
-.page-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-.page-header h2 {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.loading-box, .empty-box {
-  background: #ffffff;
+.glass-box {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border: 3px solid #ffffff;
   padding: 40px;
-  border-radius: var(--radius-md);
+  border-radius: 28px;
   text-align: center;
-  font-size: 1.1rem;
-  font-weight: 700;
-  border: 2px dashed #cbd5e1;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1e293b;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.tasks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
