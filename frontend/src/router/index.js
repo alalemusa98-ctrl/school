@@ -18,6 +18,7 @@ const routes = [
   { path: '/student/exams', name: 'student-exams', component: ExamsView, meta: { requiresAuth: true, role: 'STUDENT' } },
   { path: '/student/schedule', name: 'student-schedule', component: ScheduleView, meta: { requiresAuth: true, role: 'STUDENT' } },
   { path: '/student/subjects', name: 'student-subjects', component: SubjectsView, meta: { requiresAuth: true, role: 'STUDENT' } },
+  { path: '/student/subjects/:id', name: 'student-subject-details', component: SubjectsView, meta: { requiresAuth: true, role: 'STUDENT' } },
 
   // Teacher Routes
   { path: '/teacher', name: 'teacher-dashboard', component: TeacherDashboardView, meta: { requiresAuth: true, role: 'TEACHER' } },

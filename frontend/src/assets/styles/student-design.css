@@ -451,7 +451,7 @@
   flex-direction: column;
   gap: 4px;
   height: 100%;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .card-content h3 {
@@ -950,3 +950,382 @@
     margin-bottom: 20px;
   }
 }
+
+/* ==========================================================================
+   Reference Image Cards Style for Subjects Page (Claymorphic / Soft 3D)
+   ========================================================================== */
+.subj-ref-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 30px 20px 18px 20px;
+  margin-top: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px -8px rgba(124, 58, 237, 0.1), 0 4px 14px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.subj-ref-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -8px rgba(124, 58, 237, 0.18), 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. Top Notch Floating Badge (Subject Icon) */
+.subj-ref-top-notch {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c084fc 0%, #ec4899 50%, #60a5fa 100%);
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 20px rgba(192, 132, 252, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  z-index: 5;
+}
+
+/* 4. Subject Title Header */
+.subj-ref-header-info {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 22px;
+}
+
+.subj-ref-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.subj-ref-subtitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: inline-block;
+  background: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+/* 2. Inner 2 Action Cards Grid (Homeworks & Exams) */
+.subj-ref-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.action-squircle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 12px;
+  border-radius: 24px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.action-squircle-card:hover {
+  background: #ffffff;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+  border-color: #e2e8f0;
+}
+
+.action-squircle-card:active {
+  transform: scale(0.97);
+}
+
+/* Squircle 3D Gradient Icon Containers */
+.squircle-icon-wrapper {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.squircle-icon-wrapper.cyan {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  box-shadow: 0 10px 22px -4px rgba(6, 182, 212, 0.45);
+}
+
+.squircle-icon-wrapper.pink {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  box-shadow: 0 10px 22px -4px rgba(236, 72, 153, 0.45);
+}
+
+.action-card-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+  text-align: center;
+}
+
+.action-card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+
+.action-card-badge.cyan {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.action-card-badge.pink {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+/* 3. Footer Row (Teacher Name) */
+.subj-ref-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px dashed #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.subj-ref-footer-row svg {
+  color: #8b5cf6;
+}
+
+/* ==========================================================================
+   Reference Image Cards Style for Weekly Schedule Page
+   ========================================================================== */
+.sched-ref-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 28px 16px 18px 16px;
+  margin-top: 26px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px -8px rgba(99, 102, 241, 0.12), 0 4px 14px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sched-ref-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -8px rgba(99, 102, 241, 0.18), 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. رقم اليوم في النتوء العلوي */
+.sched-ref-top-notch {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  z-index: 5;
+}
+
+/* 4. اسم اليوم & 3. التاريخ الخاص باليوم */
+.sched-ref-header-info {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.sched-ref-day-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.sched-ref-day-date {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4338ca;
+  background: #eef2ff;
+  padding: 3px 12px;
+  border-radius: 12px;
+  border: 1px solid #c7d2fe;
+}
+
+/* 2. شبكة المواد 3 عناصر كحد أقصى لكل صف */
+.sched-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+/* شبكة الامتحانات: زوز مواد (2 عناصر) كحد أقصى لكل صف */
+.exam-ref-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.sched-subject-squircle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px 4px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sched-subject-squircle:hover {
+  background: #ffffff;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+  border-color: #e2e8f0;
+}
+
+/* Squircle Icon Gradients */
+.sched-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.2);
+}
+
+.sched-icon-box.math {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  box-shadow: 0 8px 18px -4px rgba(6, 182, 212, 0.4);
+}
+
+.sched-icon-box.science {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 8px 18px -4px rgba(16, 185, 129, 0.4);
+}
+
+.sched-icon-box.arabic {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 8px 18px -4px rgba(245, 158, 11, 0.4);
+}
+
+.sched-icon-box.english {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  box-shadow: 0 8px 18px -4px rgba(236, 72, 153, 0.4);
+}
+
+.sched-icon-box.islamic {
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  box-shadow: 0 8px 18px -4px rgba(139, 92, 246, 0.4);
+}
+
+.sched-icon-box.default {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  box-shadow: 0 8px 18px -4px rgba(100, 116, 139, 0.4);
+}
+
+.sched-period-tag {
+  font-size: 9px;
+  font-weight: 800;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 7px;
+  border-radius: 8px;
+}
+
+.sched-subject-name {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sched-teacher-name {
+  font-size: 9px;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sched-no-lessons {
+  text-align: center;
+  padding: 16px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 700;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px dashed #e2e8f0;
+}
+
+/* 3. التاريخ في أسفل الكارد (مكان رقم 3 في الصورة المرجعية) */
+.sched-ref-footer-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 12px;
+  margin-top: 10px;
+  border-top: 1px dashed #e2e8f0;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6366f1;
+}
+
+.sched-ref-footer-date svg {
+  color: #8b5cf6;
+}
+

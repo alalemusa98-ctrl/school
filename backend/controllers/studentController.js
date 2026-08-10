@@ -25,10 +25,10 @@ const getStudentProfile = async (req, res) => {
   }
 };
 
-// 2. Get Tasks (Homeworks & Exams) for Student's Section
+// 2. Get Tasks (Homeworks & Exams) for Student's Section or Subject
 const getStudentTasks = async (req, res) => {
   try {
-    const sectionId = req.user.sectionId;
+    const sectionId = req.user?.sectionId;
     const { subject_id, task_type } = req.query;
 
     let query = `
@@ -39,10 +39,15 @@ const getStudentTasks = async (req, res) => {
       FROM assessment_tasks t
       JOIN subjects sub ON t.subject_id = sub.id
       JOIN teachers teacher ON t.teacher_id = teacher.id
-      WHERE t.section_id = ?
+      WHERE 1=1
     `;
 
-    const params = [sectionId];
+    const params = [];
+
+    if (sectionId) {
+      query += ` AND t.section_id = ?`;
+      params.push(sectionId);
+    }
 
     if (subject_id) {
       query += ` AND t.subject_id = ?`;
@@ -72,17 +77,25 @@ const getStudentTasks = async (req, res) => {
 // 3. Get Student Weekly Schedule
 const getStudentSchedule = async (req, res) => {
   try {
-    const sectionId = req.user.sectionId;
+    const sectionId = req.user?.sectionId;
 
-    const [slots] = await db.query(`
+    let query = `
       SELECT slot.id, slot.day_of_week, slot.slot_number,
              sub.name AS subject_name, teacher.full_name AS teacher_name
       FROM schedule_slots slot
       JOIN subjects sub ON slot.subject_id = sub.id
       JOIN teachers teacher ON slot.teacher_id = teacher.id
-      WHERE slot.section_id = ?
-      ORDER BY slot.day_of_week ASC, slot.slot_number ASC
-    `, [sectionId]);
+    `;
+
+    const params = [];
+    if (sectionId) {
+      query += ` WHERE slot.section_id = ?`;
+      params.push(sectionId);
+    }
+
+    query += ` ORDER BY slot.day_of_week ASC, slot.slot_number ASC`;
+
+    const [slots] = await db.query(query, params);
 
     return res.json({
       success: true,
@@ -97,11 +110,34 @@ const getStudentSchedule = async (req, res) => {
 // 4. Get Student Subjects
 const getStudentSubjects = async (req, res) => {
   try {
-    const gradeId = req.user.gradeId;
+    const gradeId = req.user?.gradeId;
+    const sectionId = req.user?.sectionId;
 
-    const [subjects] = await db.query(`
-      SELECT id, name FROM subjects WHERE grade_id = ? ORDER BY name ASC
-    `, [gradeId]);
+    let query = `
+      SELECT sub.id, sub.name,
+             COALESCE(
+               (SELECT t.full_name FROM teachers t JOIN teacher_assignments ta ON ta.teacher_id = t.id WHERE ta.subject_id = sub.id AND ta.section_id = ? LIMIT 1),
+               (SELECT t.full_name FROM teachers t JOIN teacher_assignments ta ON ta.teacher_id = t.id WHERE ta.subject_id = sub.id LIMIT 1),
+               'أستاذ المادة'
+             ) AS teacher_name
+      FROM subjects sub
+    `;
+
+    const params = [];
+    if (sectionId) {
+      params.push(sectionId);
+    } else {
+      params.push(null);
+    }
+
+    if (gradeId) {
+      query += ` WHERE sub.grade_id = ?`;
+      params.push(gradeId);
+    }
+
+    query += ` ORDER BY sub.name ASC`;
+
+    const [subjects] = await db.query(query, params);
 
     return res.json({
       success: true,

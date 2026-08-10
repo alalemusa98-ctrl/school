@@ -53,207 +53,270 @@
       </div>
     </section>
 
-    <!-- Main Homework List Container -->
+    <!-- Main Homework List Container (مطابق للتصميم المعتمد في صفحة الامتحانات والجدول) -->
     <main class="hw-container">
       <div v-if="loading" class="loading-state">جاري استرجاع الواجبات المدرسية... ⏳</div>
 
-      <!-- Current Homeworks List -->
+      <!-- Current Homeworks List (كاردات مجمعة حسب أيام التسليم الفعلية) -->
       <div v-else-if="activeTab === 'current'">
-        <div v-if="filteredCurrentHomeworks.length === 0" class="empty-state">
+        <div v-if="groupedCurrentHomeworks.length === 0" class="empty-state">
           🎉 لا توجد واجبات معلقة حالياً في هذا القسم. أنت رائع!
         </div>
 
-        <article 
-          v-for="hw in filteredCurrentHomeworks" 
-          :key="hw.id" 
-          class="hw-card-ref"
-        >
-          <!-- 1. Card Top Header (Title Only) -->
-          <div class="hw-ref-header">
-            <h3 class="hw-ref-title">{{ hw.title }}</h3>
-          </div>
-
-          <!-- 2. Teacher & Subject Row (Avatar + Verified Pill) -->
-          <div class="hw-ref-profile-row">
-            <div class="hw-ref-avatar">
-              {{ getSubjectIcon(hw.subject_name) }}
+        <div v-else class="schedule-days-list">
+          <article 
+            v-for="group in groupedCurrentHomeworks" 
+            :key="group.dateKey" 
+            class="sched-ref-card"
+          >
+            <!-- 1. رقم اليوم/المجموعة في النتوء العلوي (مكان رقم 1 في الصورة) -->
+            <div class="sched-ref-top-notch">
+              {{ group.index }}
             </div>
-            <div class="hw-ref-profile-info">
-              <span class="hw-ref-teacher-name">{{ hw.teacher_name || 'أستاذ المادة' }}</span>
-              <span class="hw-ref-verified-pill" :class="{ pending: !hw.has_solution }">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>{{ hw.has_solution ? 'تم توفير الحل النموذجي' : 'الحل النموذجي قيد التوفير' }}</span>
-              </span>
+
+            <!-- 4. اسم اليوم في رأس الكارد (مكان رقم 4 في الصورة) -->
+            <div class="sched-ref-header-info">
+              <h3 class="sched-ref-day-title">واجبات يوم {{ group.dayName }}</h3>
             </div>
-          </div>
 
-          <!-- 3. Recessed Light Purple Box -->
-          <div class="hw-ref-inner-box">
-            <span class="hw-ref-inner-label">محتوى وتفاصيل الواجب</span>
-            <p class="hw-desc">{{ hw.description }}</p>
-
-            <div class="hw-ref-stats-grid">
-              <div class="hw-ref-stat-col">
-                <div class="hw-ref-stat-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                  <span>حالة التسليم</span>
+            <!-- 2. شبكة مواد الواجبات لهذا اليوم (زوز مواد 2 كحد أقصى لكل صف) -->
+            <div class="exam-ref-grid">
+              <div 
+                v-for="hw in group.homeworks" 
+                :key="hw.id" 
+                class="sched-subject-squircle hw-squircle-click"
+                @click="openHomeworkDrawer(hw)"
+              >
+                <!-- Squircle Icon -->
+                <div class="sched-icon-box" :class="getSubjectColorClass(hw.subject_name)">
+                  {{ getSubjectIcon(hw.subject_name) }}
                 </div>
-                <span class="hw-ref-stat-val">{{ hw.submitted ? '✓ تم إرسال الحل' : '⏳ معلق - قيد الحل' }}</span>
-              </div>
 
-              <div class="hw-ref-stat-col">
-                <div class="hw-ref-stat-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                  </svg>
-                  <span>الملف المرفق</span>
-                </div>
-                <span class="hw-ref-stat-val">{{ hw.attachment_name || 'تمرين_الواجب.pdf' }}</span>
+                <!-- Status Badge -->
+                <span class="sched-period-tag" :class="{ pending: !hw.submitted }">
+                  {{ hw.submitted ? 'تم الإرسال' : 'معلق' }}
+                </span>
+
+                <!-- Subject Name -->
+                <h4 class="sched-subject-name" :title="hw.subject_name">{{ hw.subject_name }}</h4>
+
+                <!-- Teacher Name -->
+                <span class="sched-teacher-name" :title="hw.teacher_name || 'أستاذ المادة'">
+                  {{ hw.teacher_name || 'أستاذ المادة' }}
+                </span>
               </div>
             </div>
-          </div>
 
-          <!-- 4. Key-Value Info Rows -->
-          <div class="hw-ref-meta-rows">
-            <div class="hw-ref-meta-row">
-              <span class="hw-ref-meta-key">المادة الدراسية</span>
-              <span class="hw-ref-meta-val">{{ hw.subject_name || 'مادة علمية' }}</span>
-            </div>
-            <div class="hw-ref-meta-row">
-              <span class="hw-ref-meta-key">تاريخ التسليم الأقصى</span>
-              <span class="hw-ref-meta-val">{{ hw.due_date ? formatDate(hw.due_date) : 'غداً (10 أغسطس 2026)' }}</span>
-            </div>
-          </div>
-
-          <!-- 5. Action Footer Row (Model Solution Button Only) -->
-          <div class="hw-ref-footer">
-            <button 
-              class="hw-ref-primary-pill-btn full-width" 
-              :disabled="!hw.has_solution" 
-              :class="{ disabled: !hw.has_solution }"
-              @click="viewModelSolution(hw)"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <polyline points="14 2 14 8 20 8"></polyline>
-                <line x1="16" y1="13" x2="8" y2="13"></line>
-                <line x1="16" y1="17" x2="8" y2="17"></line>
+            <!-- 3. تاريخ التسليم في الأسفل (مكان رقم 3 في الصورة المرجعية) -->
+            <div class="sched-ref-footer-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
               </svg>
-              <span>{{ hw.has_solution ? 'عرض الحل النموذجي' : 'عرض الحل النموذجي (غير متاح)' }}</span>
-            </button>
-          </div>
-        </article>
+              <span>تاريخ التسليم: {{ group.dateFormatted }}</span>
+            </div>
+          </article>
+        </div>
       </div>
 
-      <!-- Archive / Previous Homeworks List -->
+      <!-- Archive Homeworks List -->
       <div v-else>
-        <div v-if="filteredArchiveHomeworks.length === 0" class="empty-state">
-          لا توجد واجبات مؤرشفة في السجل حالياً.
+        <div v-if="groupedArchiveHomeworks.length === 0" class="empty-state">
+          لا توجد واجبات مكتملة في الأرشيف حالياً.
         </div>
 
-        <article 
-          v-for="hw in filteredArchiveHomeworks" 
-          :key="hw.id" 
-          class="hw-card-ref"
-        >
-          <!-- 1. Card Top Header -->
-          <div class="hw-ref-header">
-            <h3 class="hw-ref-title">{{ hw.title }}</h3>
-          </div>
-
-          <!-- 2. Teacher Row -->
-          <div class="hw-ref-profile-row">
-            <div class="hw-ref-avatar">
-              {{ getSubjectIcon(hw.subject_name) }}
+        <div v-else class="schedule-days-list">
+          <article 
+            v-for="group in groupedArchiveHomeworks" 
+            :key="group.dateKey" 
+            class="sched-ref-card"
+          >
+            <!-- 1. Top Notch -->
+            <div class="sched-ref-top-notch">
+              {{ group.index }}
             </div>
-            <div class="hw-ref-profile-info">
-              <span class="hw-ref-teacher-name">{{ hw.teacher_name || 'أ. مريم الفيتوري' }}</span>
-              <span class="hw-ref-verified-pill">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>تم التقييم والحل النموذجي</span>
-              </span>
+
+            <!-- 4. Header Title -->
+            <div class="sched-ref-header-info">
+              <h3 class="sched-ref-day-title">أرشيف واجبات يوم {{ group.dayName }}</h3>
             </div>
-          </div>
 
-          <!-- 3. Recessed Box -->
-          <div class="hw-ref-inner-box">
-            <span class="hw-ref-inner-label">ملاحظة وتقييم المعلم</span>
-            <p class="hw-desc">"{{ hw.feedback || 'ممتاز جداً! إجابة كاملة ودقيقة وأسلوب ممتاز.' }}"</p>
-
-            <div class="hw-ref-stats-grid">
-              <div class="hw-ref-stat-col">
-                <div class="hw-ref-stat-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.2">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                  </svg>
-                  <span>الدرجة المستحقة</span>
+            <!-- 2. Grid (2 max per row) -->
+            <div class="exam-ref-grid">
+              <div 
+                v-for="hw in group.homeworks" 
+                :key="hw.id" 
+                class="sched-subject-squircle hw-squircle-click"
+                @click="openHomeworkDrawer(hw)"
+              >
+                <div class="sched-icon-box" :class="getSubjectColorClass(hw.subject_name)">
+                  {{ getSubjectIcon(hw.subject_name) }}
                 </div>
-                <span class="hw-ref-stat-val">{{ hw.score || '10 / 10 🌟' }}</span>
-              </div>
-
-              <div class="hw-ref-stat-col">
-                <div class="hw-ref-stat-title">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                  <span>الحالة</span>
-                </div>
-                <span class="hw-ref-stat-val">مكتمل في الأرشيف</span>
+                <span class="sched-period-tag success">{{ hw.score || 'مكتمل' }}</span>
+                <h4 class="sched-subject-name" :title="hw.subject_name">{{ hw.subject_name }}</h4>
+                <span class="sched-teacher-name" :title="hw.teacher_name || 'أستاذ المادة'">
+                  {{ hw.teacher_name || 'أستاذ المادة' }}
+                </span>
               </div>
             </div>
-          </div>
 
-          <!-- 4. Meta Details Key-Value Rows -->
-          <div class="hw-ref-meta-rows">
-            <div class="hw-ref-meta-row">
-              <span class="hw-ref-meta-key">المادة الدراسية</span>
-              <span class="hw-ref-meta-val">{{ hw.subject_name }}</span>
-            </div>
-            <div class="hw-ref-meta-row">
-              <span class="hw-ref-meta-key">تاريخ التسليم</span>
-              <span class="hw-ref-meta-val">{{ formatDate(hw.due_date) }}</span>
-            </div>
-          </div>
-
-          <!-- 5. Action Footer Row (Model Solution Button Only) -->
-          <div class="hw-ref-footer">
-            <button 
-              class="hw-ref-primary-pill-btn full-width"
-              :disabled="!hw.has_solution"
-              :class="{ disabled: !hw.has_solution }"
-              @click="viewModelSolution(hw)"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
+            <!-- 3. Date Footer -->
+            <div class="sched-ref-footer-date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
-              <span>{{ hw.has_solution ? 'عرض الحل النموذجي' : 'عرض الحل النموذجي (غير متاح)' }}</span>
-            </button>
-          </div>
-        </article>
+              <span>تاريخ الأرشيف: {{ group.dateFormatted }}</span>
+            </div>
+          </article>
+        </div>
       </div>
     </main>
+
+    <!-- Side Drawer (دراوير جانبي تفاعلي عند الضغط على مادة الواجب) -->
+    <ShadcnDrawer 
+      v-model="isDrawerOpen" 
+      :title="selectedHw ? selectedHw.title : 'تفاصيل الواجب المالي'"
+      :description="selectedHw ? `مادة ${selectedHw.subject_name} • إعداد ${selectedHw.teacher_name || 'أستاذ المادة'}` : ''"
+      :icon="selectedHw ? getSubjectIcon(selectedHw.subject_name) : '📚'"
+    >
+      <div v-if="selectedHw" class="drawer-exam-details">
+        <!-- Status Banner -->
+        <div class="drawer-status-banner" :class="{ verified: selectedHw.submitted }">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>{{ selectedHw.submitted ? 'تم إرسال الواجب وتسليمه بنجاح' : 'واجب معلق - مطلوب إنجازه وتسليمه' }}</span>
+        </div>
+
+        <!-- Meta Grid -->
+        <div class="drawer-info-grid">
+          <div class="drawer-info-item">
+            <span class="info-label">📅 تاريخ التسليم الأقصى</span>
+            <span class="info-val">{{ formatDate(selectedHw.due_date) }}</span>
+          </div>
+
+          <div class="drawer-info-item">
+            <span class="info-label">👨‍🏫 الأستاذ المسؤول</span>
+            <span class="info-val">{{ selectedHw.teacher_name || 'أستاذ المادة' }}</span>
+          </div>
+
+          <div class="drawer-info-item">
+            <span class="info-label">📄 الملف المرفق</span>
+            <span class="info-val">{{ selectedHw.attachment_name || selectedHw.attachment_path || 'تمرين_الواجب.pdf' }}</span>
+          </div>
+
+          <div class="drawer-info-item" v-if="selectedHw.score">
+            <span class="info-label">🌟 الدرجة والتقييم</span>
+            <span class="info-val score-highlight">{{ selectedHw.score }}</span>
+          </div>
+        </div>
+
+        <!-- Description / Homework Instructions -->
+        <div class="drawer-section">
+          <h4 class="drawer-section-title">📌 المطلـوب في الواجب المدرسي:</h4>
+          <p class="drawer-text-content">
+            {{ selectedHw.description || 'يرجى حل تمارين الواجب المحددة بالكامل وإرسال الإجابة قبل تاريخ التسليم الأقصى.' }}
+          </p>
+        </div>
+
+        <!-- Solution Action Box inside Drawer -->
+        <div class="drawer-solution-card">
+          <div class="sol-card-info">
+            <h5>📖 الحل النموذجي المعتمد</h5>
+            <p v-if="selectedHw.has_solution">ملف PDF يحتوي على خطوات الحل والإجابة النموذجية المعتمدة.</p>
+            <p v-else>لم يقم أستاذ المادة بإرفاق الحل النموذجي بعد.</p>
+          </div>
+          <button 
+            class="hw-ref-primary-pill-btn"
+            :disabled="!selectedHw.has_solution"
+            :class="{ disabled: !selectedHw.has_solution }"
+            @click="openSolutionModal(selectedHw)"
+          >
+            عرض الحل النموذجي ➔
+          </button>
+        </div>
+      </div>
+
+      <template #footer>
+        <button class="shadcn-btn-secondary" @click="isDrawerOpen = false">إغلاق</button>
+        <button 
+          class="shadcn-btn-primary" 
+          :disabled="!selectedHw?.has_solution"
+          @click="openSolutionModal(selectedHw)"
+        >
+          فتح الحل النموذجي
+        </button>
+      </template>
+    </ShadcnDrawer>
+
+    <!-- Shadcn UI Dialog for Homework Model Solution -->
+    <ShadcnDialog 
+      v-model="isModalOpen" 
+      :title="selectedHw ? `الحل النموذجي: ${selectedHw.title}` : 'الحل النموذجي المعتمد'"
+      :description="selectedHw ? `مادة ${selectedHw.subject_name} • إعداد ${selectedHw.teacher_name || 'أستاذ المادة'}` : ''"
+      icon="💡"
+    >
+      <div v-if="selectedHw" class="solution-dialog-content">
+        <div class="solution-section">
+          <h4 class="section-title">📌 مفردات وخطوات الحل النموذجي المعتمد:</h4>
+          <div class="solution-text-box">
+            <p v-if="selectedHw.solution_text">
+              {{ selectedHw.solution_text }}
+            </p>
+            <div v-else class="default-solution-steps">
+              <p>1. صياغة القواعد الأساسية والإجابة النموذجية المعتمدة للمادة.</p>
+              <p>2. توزيع الدرجات التفصيلية والخطوات الواجب إتباعها.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-attachment-box">
+          <div class="file-icon-wrapper">
+            📄
+          </div>
+          <div class="file-details">
+            <span class="file-name">{{ selectedHw.solution_filename || 'الحل_النموذجي_المعتمد.pdf' }}</span>
+            <span class="file-meta">ملف PDF شامل يحتوي على الإجابات النموذجية (1.8 MB)</span>
+          </div>
+          <button class="download-action-btn" @click="downloadSolution(selectedHw)">
+            تحميل
+          </button>
+        </div>
+      </div>
+
+      <template #footer>
+        <button class="shadcn-btn-secondary" @click="isModalOpen = false">إغلاق</button>
+        <button class="shadcn-btn-primary" @click="downloadSolution(selectedHw)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          تحميل الحل النموذجي (PDF)
+        </button>
+      </template>
+    </ShadcnDialog>
   </StudentLayout>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import StudentLayout from '../../components/student/StudentLayout.vue';
+import ShadcnDialog from '../../components/common/ShadcnDialog.vue';
+import ShadcnDrawer from '../../components/common/ShadcnDrawer.vue';
 import api from '../../services/api';
 
 const loading = ref(true);
 const activeTab = ref('current');
 const selectedSubject = ref('ALL');
 const homeworks = ref([]);
+
+const isDrawerOpen = ref(false);
+const isModalOpen = ref(false);
+const selectedHw = ref(null);
 
 const subjectOptions = [
   { id: 'math', name: 'الرياضيات', icon: '📐' },
@@ -263,44 +326,80 @@ const subjectOptions = [
 ];
 
 const fallbackCurrentHomeworks = [
+  // Day 1: الأحد 16 أغسطس 2026 (واجبين)
   {
     id: 101,
     title: 'تمارين ص 45 (معادلات الدرجة الأولى)',
     description: 'حل التمارين رقم (1، 3، 5، 7) في كراسة الواجبات مع كتابة خطوات الحل بالكامل والتأكد من صحة النتائج.',
     subject_name: 'الرياضيات',
-    due_date: '2026-08-10',
+    due_date: '2026-08-16',
     teacher_name: 'أ. أحمد سالم',
     attachment_name: 'ورقة_عمل_المعادلات.pdf',
     statusText: 'معلق - مطلوب تسليمه',
     submitted: false,
     has_solution: true,
-    solution_url: '/solutions/math_ex45.pdf'
+    solution_text: 'خطوات حل معادلات الدرجة الأولى:\n1) تجميع المتغيرات في طرف والأعداد الثابتة في الطرف الآخر مع تغيير الإشارة.\n2) القسمة على معامل المتغير س للوصول للحل النهائي.\n3) س = 5 (النتيجة النموذجية للتمارين 1 و 3).',
+    solution_filename: 'الحل_النموذجي_رياضيات_ص45.pdf'
   },
   {
     id: 102,
     title: 'تقرير تجربة دورة الماء والتبخر',
     description: 'كتابة ملخص تجربة المعمل حول مراحل التبخر والتكثف وتأثير الحرارة، مرفق برسم توضيحي لدورة الماء في الطبيعة.',
     subject_name: 'العلوم العامة',
-    due_date: '2026-08-13',
+    due_date: '2026-08-16',
     teacher_name: 'أ. فاطمة العبيدي',
     attachment_name: 'رسم_توضيحي_المعمل.png',
     statusText: 'قيد المراجعة والمعاينة',
     submitted: true,
     has_solution: false,
-    solution_url: null
+    solution_text: null
   },
+
+  // Day 2: الأربعاء 19 أغسطس 2026 (واجب واحد)
   {
     id: 103,
     title: 'إعراب سورة النبأ (الأيات 1-10)',
     description: 'استخراج الفاعل والمفعول به والأفعال الماضية والمضارعة من السورة الكريمة وكتابتها في كراسة النحو والصرف.',
     subject_name: 'اللغة العربية',
-    due_date: '2026-08-16',
+    due_date: '2026-08-19',
     teacher_name: 'أ. عمر الشريف',
     attachment_name: 'جدول_القواعد_الإعرابية.pdf',
     statusText: 'جديد',
     submitted: false,
     has_solution: true,
-    solution_url: '/solutions/arabic_neba.pdf'
+    solution_text: 'إعراب نموذج الآية الكريمة:\n- "عَمَّ": عَنْ: حرف جر، ومَا: اسم استفهام مبني في محل جر بحرف الجر.\n- "يَتَسَاءَلُونَ": فعل مضارع مرفوع بثبوت النون لأنه من الأفعال الخمسة، والواو فاعل.',
+    solution_filename: 'إعراب_سورة_النبأ_نموذجي.pdf'
+  },
+
+  // Day 3: الأحد 23 أغسطس 2026 (واجبين)
+  {
+    id: 104,
+    title: 'Unit 3 Vocabulary & Reading Sheet',
+    description: 'Solve page 24 exercises in workbook and upload final solution worksheet.',
+    subject_name: 'اللغة الإنجليزية',
+    due_date: '2026-08-23',
+    teacher_name: 'أ. مريم الفيتوري',
+    attachment_name: 'Workbook_Unit3.pdf',
+    statusText: 'معلق',
+    submitted: false,
+    has_solution: true,
+    solution_text: 'Unit 3 Vocabulary & Reading Answers.',
+    solution_filename: 'English_Unit3_Worksheet.pdf'
+  },
+  {
+    id: 105,
+    title: 'تفسير وآيات سورة الملك',
+    description: 'كتابة فوائد وأحكام سورة الملك ص 10 إلى ص 14.',
+    subject_name: 'التربية الإسلامية',
+    teacher_name: 'أ. أسامة علي',
+    due_date: '2026-08-23',
+    teacher_name: 'أ. أسامة علي',
+    attachment_name: 'تفسير_سورة_الملك.pdf',
+    statusText: 'معلق',
+    submitted: false,
+    has_solution: true,
+    solution_text: 'نموذج التفسير والفوائد الاستنباطية.',
+    solution_filename: 'تفسير_سورة_الملك_معتمد.pdf'
   }
 ];
 
@@ -315,14 +414,15 @@ const fallbackArchiveHomeworks = [
     score: '10 / 10 🌟',
     feedback: 'ممتاز جداً! خط واضح وإجابات دقيقة وإتقان تام للقواعد. أحسنت! 👏',
     has_solution: true,
-    solution_url: '/solutions/english_unit3.pdf'
+    solution_text: 'Unit 3 Model Solution:\n1. Past Simple: subject + verb(-ed) / irregular verb.\n2. Example: She walked to school yesterday.',
+    solution_filename: 'Unit3_PastSimple_Solution.pdf'
   }
 ];
 
 const currentHomeworks = computed(() => {
   return homeworks.value.length > 0 ? homeworks.value.map(hw => ({
     ...hw,
-    has_solution: hw.has_solution ?? Boolean(hw.solution_url)
+    has_solution: hw.has_solution ?? Boolean(hw.solution_url || hw.solution_text)
   })) : fallbackCurrentHomeworks;
 });
 
@@ -340,6 +440,79 @@ const filteredArchiveHomeworks = computed(() => {
   return archiveHomeworks.value.filter(hw => getSubjectId(hw.subject_name) === selectedSubject.value);
 });
 
+// Group current homeworks dynamically by due date (hiding empty days)
+const groupedCurrentHomeworks = computed(() => {
+  const filtered = filteredCurrentHomeworks.value;
+  if (filtered.length === 0) return [];
+
+  const groupsMap = {};
+  filtered.forEach(hw => {
+    const dateKey = hw.due_date || '2026-08-16';
+    if (!groupsMap[dateKey]) {
+      groupsMap[dateKey] = [];
+    }
+    groupsMap[dateKey].push(hw);
+  });
+
+  const sortedDates = Object.keys(groupsMap).sort();
+
+  return sortedDates.map((dateKey, idx) => {
+    const info = getDayInfo(dateKey);
+    return {
+      index: idx + 1,
+      dateKey,
+      dayName: info.dayName,
+      dateFormatted: info.dateFormatted,
+      homeworks: groupsMap[dateKey]
+    };
+  });
+});
+
+// Group archive homeworks dynamically by due date
+const groupedArchiveHomeworks = computed(() => {
+  const filtered = filteredArchiveHomeworks.value;
+  if (filtered.length === 0) return [];
+
+  const groupsMap = {};
+  filtered.forEach(hw => {
+    const dateKey = hw.due_date || '2026-08-05';
+    if (!groupsMap[dateKey]) {
+      groupsMap[dateKey] = [];
+    }
+    groupsMap[dateKey].push(hw);
+  });
+
+  const sortedDates = Object.keys(groupsMap).sort();
+
+  return sortedDates.map((dateKey, idx) => {
+    const info = getDayInfo(dateKey);
+    return {
+      index: idx + 1,
+      dateKey,
+      dayName: info.dayName,
+      dateFormatted: info.dateFormatted,
+      homeworks: groupsMap[dateKey]
+    };
+  });
+});
+
+function getDayInfo(dateStr) {
+  if (!dateStr) return { dayName: 'اليوم', dateFormatted: 'أغسطس 2026' };
+  const d = new Date(dateStr);
+  const dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+  const dayName = isNaN(d.getDay()) ? 'اليوم' : dayNames[d.getDay()];
+  const dayNum = isNaN(d.getDate()) ? '' : d.getDate();
+  const monthName = isNaN(d.getMonth()) ? '' : monthNames[d.getMonth()];
+  const year = isNaN(d.getFullYear()) ? '' : d.getFullYear();
+
+  return {
+    dayName,
+    dateFormatted: `${dayName} ${dayNum} ${monthName} ${year}`.trim()
+  };
+}
+
 function getSubjectId(name) {
   if (!name) return 'other';
   if (name.includes('رياضيات')) return 'math';
@@ -347,6 +520,15 @@ function getSubjectId(name) {
   if (name.includes('عرب')) return 'arabic';
   if (name.includes('إنكليز') || name.includes('إنجليزية') || name.includes('English')) return 'english';
   return 'other';
+}
+
+function getSubjectColorClass(name) {
+  const id = getSubjectId(name);
+  if (id === 'math') return 'math';
+  if (id === 'science') return 'science';
+  if (id === 'arabic') return 'arabic';
+  if (id === 'english') return 'english';
+  return 'default';
 }
 
 function getSubjectIcon(name) {
@@ -363,9 +545,20 @@ function formatDate(dateStr) {
   return dateStr;
 }
 
-function viewModelSolution(hw) {
-  if (!hw.has_solution) return;
-  alert(`💡 الحل النموذجي لمادة (${hw.subject_name}):\n\n- ${hw.title}\n- تم إرفاق حل التمارين التفصيلي خطوة بخطوة.`);
+function openHomeworkDrawer(hw) {
+  selectedHw.value = hw;
+  isDrawerOpen.value = true;
+}
+
+function openSolutionModal(hw) {
+  if (!hw || !hw.has_solution) return;
+  selectedHw.value = hw;
+  isDrawerOpen.value = true;
+  isModalOpen.value = true;
+}
+
+function downloadSolution(hw) {
+  alert(`جاري تحميل ملف الحل النموذجي: ${hw ? (hw.solution_filename || 'الحل_النموذجي.pdf') : 'الحل.pdf'}... 📥`);
 }
 
 onMounted(async () => {
@@ -393,7 +586,218 @@ onMounted(async () => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-.full-width {
-  width: 100%;
+.hw-squircle-click {
+  cursor: pointer;
+}
+
+/* Solution Dialog & Drawer Styles */
+.drawer-exam-details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.drawer-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.drawer-status-banner.verified {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #86efac;
+}
+
+.drawer-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.drawer-info-item {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.info-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.score-highlight {
+  color: #b45309;
+}
+
+.drawer-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.drawer-text-content {
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.6;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.drawer-solution-card {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sol-card-info h5 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #312e81;
+  margin: 0 0 4px 0;
+}
+
+.sol-card-info p {
+  font-size: 11px;
+  color: #4338ca;
+  margin: 0;
+  font-weight: 600;
+}
+
+.solution-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.solution-text-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 13px;
+  color: #1e293b;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.default-solution-steps p {
+  margin-bottom: 6px;
+}
+
+.solution-attachment-box {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-icon-wrapper {
+  font-size: 24px;
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.file-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #312e81;
+}
+
+.file-meta {
+  font-size: 11px;
+  color: #4338ca;
+  font-weight: 600;
+}
+
+.download-action-btn {
+  background: #4338ca;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.download-action-btn:hover {
+  background: #3730a3;
+}
+
+.shadcn-btn-primary {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.shadcn-btn-primary:hover {
+  background: #1e293b;
+}
+
+.shadcn-btn-secondary {
+  background: #ffffff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.shadcn-btn-secondary:hover {
+  background: #f1f5f9;
 }
 </style>
