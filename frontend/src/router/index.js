@@ -6,6 +6,10 @@ import ExamsView from '../views/student/ExamsView.vue';
 import ScheduleView from '../views/student/ScheduleView.vue';
 import SubjectsView from '../views/student/SubjectsView.vue';
 import TeacherDashboardView from '../views/teacher/TeacherDashboardView.vue';
+import TeacherHomeworksView from '../views/teacher/TeacherHomeworksView.vue';
+import TeacherExamsView from '../views/teacher/TeacherExamsView.vue';
+import TeacherScheduleView from '../views/teacher/TeacherScheduleView.vue';
+import TeacherSubjectsView from '../views/teacher/TeacherSubjectsView.vue';
 import AdminDashboardView from '../views/admin/AdminDashboardView.vue';
 
 const routes = [
@@ -22,6 +26,10 @@ const routes = [
 
   // Teacher Routes
   { path: '/teacher', name: 'teacher-dashboard', component: TeacherDashboardView, meta: { requiresAuth: true, role: 'TEACHER' } },
+  { path: '/teacher/homeworks', name: 'teacher-homeworks', component: TeacherHomeworksView, meta: { requiresAuth: true, role: 'TEACHER' } },
+  { path: '/teacher/exams', name: 'teacher-exams', component: TeacherExamsView, meta: { requiresAuth: true, role: 'TEACHER' } },
+  { path: '/teacher/schedule', name: 'teacher-schedule', component: TeacherScheduleView, meta: { requiresAuth: true, role: 'TEACHER' } },
+  { path: '/teacher/subjects', name: 'teacher-subjects', component: TeacherSubjectsView, meta: { requiresAuth: true, role: 'TEACHER' } },
 
   // Admin Routes
   { path: '/admin', name: 'admin-dashboard', component: AdminDashboardView, meta: { requiresAuth: true, role: 'ADMIN' } },
