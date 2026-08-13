@@ -21,7 +21,7 @@
 
 .student-app-root {
   font-family: var(--font-sf-arabic);
-  background: linear-gradient(180deg, #f8f5ff 0%, #f0f7ff 100%);
+  background: linear-gradient(180deg, rgba(248, 245, 255, 0.88) 0%, rgba(240, 247, 255, 0.92) 100%), url('/images/student_bg.jpg') center top / cover no-repeat fixed;
   min-height: 100vh;
   color: #2d2a4a;
   padding-bottom: 90px;
@@ -44,13 +44,13 @@
   margin-bottom: 24px;
 }
 
-/* Gradient Banner Background */
+/* Gradient Banner Background with Student Custom Wallpaper */
 .ios-header-banner {
-  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #4f46e5 100%);
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.65) 0%, rgba(67, 56, 202, 0.82) 100%), url('/images/student_bg.jpg') center center / cover no-repeat;
   padding: 12px 18px 70px;
   border-radius: 0 0 32px 32px;
   color: #ffffff;
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 10px 30px rgba(67, 56, 202, 0.3);
   position: relative;
 }
 

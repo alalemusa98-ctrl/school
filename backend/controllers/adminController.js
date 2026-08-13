@@ -44,6 +44,24 @@ const getGrades = async (req, res) => {
   }
 };
 
+const createGrade = async (req, res) => {
+  try {
+    const { name, level } = req.body;
+    if (!name || !level) {
+      return res.status(400).json({ success: false, message: 'يرجى إدخال اسم الصف ورقم المستوى.' });
+    }
+
+    const [result] = await db.query('INSERT INTO grades (name, level) VALUES (?, ?)', [name, level]);
+    return res.status(201).json({ success: true, message: 'تم إضافة الصف الدراسي بنجاح.', gradeId: result.insertId });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ success: false, message: 'هذا الصف موجود بالفعل.' });
+    }
+    console.error('Create Grade Error:', error);
+    return res.status(500).json({ success: false, message: 'حدث خطأ في الخادم أثناء إضافة الصف.' });
+  }
+};
+
 const createSection = async (req, res) => {
   try {
     const { grade_id, name } = req.body;
@@ -375,6 +393,7 @@ const deleteScheduleSlot = async (req, res) => {
 module.exports = {
   getDashboardStats,
   getGrades,
+  createGrade,
   createSection,
   deleteSection,
   getSubjects,

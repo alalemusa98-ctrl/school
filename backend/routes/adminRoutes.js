@@ -10,6 +10,7 @@ router.get('/stats', adminController.getDashboardStats);
 
 // Grades & Sections
 router.get('/grades', adminController.getGrades);
+router.post('/grades', adminController.createGrade);
 router.post('/sections', adminController.createSection);
 router.delete('/sections/:id', adminController.deleteSection);
 

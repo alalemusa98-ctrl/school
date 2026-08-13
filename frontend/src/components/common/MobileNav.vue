@@ -3,8 +3,8 @@
     <!-- 1. الرئيسية -->
     <button 
       class="nav-item" 
-      :class="{ active: currentRoute === '/student' }"
-      @click="$router.push('/student')"
+      :class="{ active: currentRoute === homePath }"
+      @click="$router.push(homePath)"
     >
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -15,11 +15,11 @@
       <span class="nav-text">الرئيسية</span>
     </button>
 
-    <!-- 2. المواد -->
+    <!-- 2. الفصول / المواد -->
     <button 
       class="nav-item" 
-      :class="{ active: currentRoute === '/student/subjects' }"
-      @click="$router.push('/student/subjects')"
+      :class="{ active: currentRoute === subjectsPath }"
+      @click="$router.push(subjectsPath)"
     >
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -27,14 +27,14 @@
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
         </svg>
       </div>
-      <span class="nav-text">المواد</span>
+      <span class="nav-text">{{ isTeacher ? 'الفصول' : 'المواد' }}</span>
     </button>
 
     <!-- 3. الجدول -->
     <button 
       class="nav-item" 
-      :class="{ active: currentRoute === '/student/schedule' }"
-      @click="$router.push('/student/schedule')"
+      :class="{ active: currentRoute === schedulePath }"
+      @click="$router.push(schedulePath)"
     >
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -50,8 +50,8 @@
     <!-- 4. الواجبات -->
     <button 
       class="nav-item" 
-      :class="{ active: currentRoute === '/student/homeworks' }"
-      @click="$router.push('/student/homeworks')"
+      :class="{ active: currentRoute === homeworksPath }"
+      @click="$router.push(homeworksPath)"
     >
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -68,8 +68,8 @@
     <!-- 5. الامتحانات -->
     <button 
       class="nav-item" 
-      :class="{ active: currentRoute === '/student/exams' }"
-      @click="$router.push('/student/exams')"
+      :class="{ active: currentRoute === examsPath }"
+      @click="$router.push(examsPath)"
     >
       <div class="icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -87,4 +87,16 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const currentRoute = computed(() => route.path);
+
+const isTeacher = computed(() => {
+  const userStr = localStorage.getItem('school_user');
+  const user = userStr ? JSON.parse(userStr) : {};
+  return route.path.startsWith('/teacher') || user.role === 'TEACHER';
+});
+
+const homePath = computed(() => isTeacher.value ? '/teacher' : '/student');
+const subjectsPath = computed(() => isTeacher.value ? '/teacher/subjects' : '/student/subjects');
+const schedulePath = computed(() => isTeacher.value ? '/teacher/schedule' : '/student/schedule');
+const homeworksPath = computed(() => isTeacher.value ? '/teacher/homeworks' : '/student/homeworks');
+const examsPath = computed(() => isTeacher.value ? '/teacher/exams' : '/student/exams');
 </script>
