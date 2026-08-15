@@ -1,82 +1,118 @@
 <template>
   <div class="desktop-admin-root">
-    <!-- Desktop Top Executive Header Navigation -->
-    <header class="desktop-admin-header">
-      <div class="header-brand">
-        <div class="brand-badge-icon">⚙️</div>
-        <div class="brand-text-group">
-          <h1 class="brand-title">منظومة إدارة المدرسة</h1>
-          <span class="brand-subtitle">لوحة التحكم الإدارية الشاملة</span>
+    <!-- SaaS Executive Top Header -->
+    <header class="saas-executive-header">
+      <!-- Right: Brand Logo & Title -->
+      <div class="header-brand-group">
+        <div class="brand-sq-icon">🎓</div>
+        <div class="brand-title-box">
+          <h1 class="brand-main-title">منظومة إدارة المدرسة</h1>
+          <span class="brand-sub-title">لوحة التحكم الإدارية الشاملة</span>
         </div>
       </div>
 
-      <!-- Center Desktop Navigation Pill Switcher -->
-      <nav class="desktop-nav-pills">
-        <button 
-          class="desktop-pill-btn" 
-          :class="{ active: activeModule === 'classrooms' || activeModule === 'structure' || activeModule === 'section-details' }"
-          @click="activeModule = 'classrooms'"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-          <span>الفصول الدراسية ({{ grades.length }})</span>
+      <!-- Center: Soft Search Input Bar -->
+      <div class="header-center-search">
+        <span class="search-glass-icon">🔍</span>
+        <input type="text" placeholder="بحث سريع عن طالب، معلم، أو مادة..." class="saas-search-input" />
+      </div>
+
+      <!-- Left: Notifications Bell & User Profile Pill -->
+      <div class="header-left-actions">
+        <button class="notif-bell-btn" title="التنبيهات">
+          <span>🔔</span>
+          <span class="notif-dot-badge">3</span>
         </button>
 
-        <button 
-          class="desktop-pill-btn" 
-          :class="{ active: activeModule === 'students' }"
-          @click="activeModule = 'students'"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <span>الطالب ({{ students.length }})</span>
-        </button>
-
-        <button 
-          class="desktop-pill-btn" 
-          :class="{ active: activeModule === 'teachers' }"
-          @click="activeModule = 'teachers'"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          <span>المعلم ({{ teachers.length }})</span>
-        </button>
-
-        <button 
-          class="desktop-pill-btn" 
-          :class="{ active: activeModule === 'schedule' }"
-          @click="activeModule = 'schedule'"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
-          <span>الجدول الدراسي</span>
-        </button>
-
-        <button 
-          class="desktop-pill-btn" 
-          :class="{ active: activeModule === 'analytics' }"
-          @click="activeModule = 'analytics'"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          <span>الإحصائيات اليومية 📊</span>
-        </button>
-      </nav>
-
-      <!-- Desktop Right Controls: Search & User Profile -->
-      <div class="header-controls">
-        <div class="desktop-search-box">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" placeholder="بحث سريع عن طالب، معلم، أو مادة..." class="search-input" />
-        </div>
-
-        <div class="admin-user-profile">
-          <div class="avatar-box">👨‍💼</div>
-          <div class="user-meta">
-            <span class="user-name">مدير المنظومة</span>
-            <span class="user-role">المدير العام</span>
+        <div class="user-profile-pill">
+          <div class="user-avatar-circle">👨‍💼</div>
+          <div class="user-info-meta">
+            <span class="user-display-name">مدير المنظومة</span>
+            <span class="user-display-role">المدير العام</span>
           </div>
-          <button class="logout-btn" title="تسجيل الخروج" @click="handleLogout">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          </button>
+          <span class="dropdown-caret-icon">▾</span>
+          <button class="logout-mini-icon" title="تسجيل الخروج" @click="handleLogout">🚪</button>
         </div>
       </div>
     </header>
+
+    <!-- SaaS Minimal Horizontal Navigation Bar -->
+    <nav class="saas-horizontal-navbar">
+      <div class="nav-links-wrapper">
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'analytics' }"
+          @click="activeModule = 'analytics'"
+        >
+          <span class="nav-icon">🏠</span>
+          <span>الرئيسية</span>
+        </button>
+
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'students' || activeModule === 'student-details' }"
+          @click="activeModule = 'students'"
+        >
+          <span class="nav-icon">👥</span>
+          <span>الطلاب</span>
+        </button>
+
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'teachers' || activeModule === 'teacher-details' }"
+          @click="activeModule = 'teachers'"
+        >
+          <span class="nav-icon">👨‍🏫</span>
+          <span>المعلمون</span>
+        </button>
+
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'classrooms' || activeModule === 'structure' || activeModule === 'section-details' || activeModule === 'grade-details' }"
+          @click="activeModule = 'classrooms'"
+        >
+          <span class="nav-icon">📖</span>
+          <span>الفصول</span>
+        </button>
+
+        <button 
+          class="saas-nav-link" 
+          @click="activeModule = 'classrooms'"
+        >
+          <span class="nav-icon">📚</span>
+          <span>المواد الدراسية</span>
+        </button>
+
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'schedule' }"
+          @click="activeModule = 'schedule'"
+        >
+          <span class="nav-icon">📅</span>
+          <span>الجدول الدراسي</span>
+        </button>
+
+        <button class="saas-nav-link" @click="activeModule = 'analytics'">
+          <span class="nav-icon">💼</span>
+          <span>الواجبات</span>
+        </button>
+
+        <button class="saas-nav-link" @click="activeModule = 'analytics'">
+          <span class="nav-icon">📊</span>
+          <span>الامتحانات</span>
+        </button>
+
+        <button class="saas-nav-link" @click="activeModule = 'analytics'">
+          <span class="nav-icon">📈</span>
+          <span>التقارير</span>
+        </button>
+
+        <button class="saas-nav-link" @click="activeModule = 'creation'">
+          <span class="nav-icon">⚙️</span>
+          <span>الإعدادات</span>
+        </button>
+      </div>
+    </nav>
 
     <!-- Desktop Main Layout Container -->
     <main class="desktop-main-wrapper">
@@ -85,59 +121,121 @@
       </div>
 
       <template v-else>
-        <!-- 1. Top KPI Summary Cards Row (شريط إحصائيات عريض ومريح للشاشات الكبيرة) -->
-        <section class="desktop-kpi-grid">
-          <!-- Card 1 -->
-          <div class="kpi-desktop-card purple">
-            <div class="kpi-icon-circle">🎓</div>
-            <div class="kpi-body">
-              <span class="kpi-label-text">إجمالي الطلاب المسجلين</span>
-              <div class="kpi-value-row">
-                <span class="kpi-big-num">{{ stats.totalStudents || 0 }}</span>
-                <span class="badge-status success">96% حضور اليوم</span>
+        <!-- 1. Top KPI Summary Cards Row (EXACT 3D CARDS LAYOUT MATCHING IMAGE 2) -->
+        <section v-if="activeModule !== 'analytics'" class="analytics-cards-grid-3d">
+          
+          <!-- Card 1: Total Enrolled Students -->
+          <div class="card-3d-box student-theme">
+            <div class="card-3d-header flex-between">
+              <h4 class="card-3d-title">إجمالي الطلاب المسجلين</h4>
+              <div class="card-3d-icon-pill emerald">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
               </div>
+            </div>
+            <div class="card-3d-body flex-between">
+              <div class="card-3d-img-container">
+                <img :src="studentImg" alt="طلاب" class="card-3d-render-img" />
+                <div class="card-3d-shadow-ellipse"></div>
+              </div>
+              <div class="card-3d-stats">
+                <div class="card-3d-num">{{ stats.totalStudents || 0 }}</div>
+                <div class="card-3d-unit">طالب مسجل</div>
+              </div>
+            </div>
+            <div class="card-3d-progress-track">
+              <div class="card-3d-progress-fill emerald-gradient" style="width: 96%;"></div>
+            </div>
+            <div class="card-3d-footer flex-between">
+              <span class="badge-status-dot green"><span class="dot green"></span> 96% حضور اليوم</span>
+              <span class="footer-muted-text">المسجلين: {{ stats.totalStudents || 0 }}</span>
             </div>
           </div>
 
-          <!-- Card 2 -->
-          <div class="kpi-desktop-card indigo">
-            <div class="kpi-icon-circle">👨‍🏫</div>
-            <div class="kpi-body">
-              <span class="kpi-label-text">كادر التدريس والمعلمين</span>
-              <div class="kpi-value-row">
-                <span class="kpi-big-num">{{ stats.totalTeachers || 0 }}</span>
-                <span class="badge-status info">التكليفات مكتملة</span>
+          <!-- Card 2: Teaching Staff -->
+          <div class="card-3d-box teacher-theme">
+            <div class="card-3d-header flex-between">
+              <h4 class="card-3d-title">كادر التدريس والمعلمين</h4>
+              <div class="card-3d-icon-pill emerald">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
+            </div>
+            <div class="card-3d-body flex-between">
+              <div class="card-3d-img-container">
+                <img :src="teacherImg" alt="معلمون" class="card-3d-render-img" />
+                <div class="card-3d-shadow-ellipse"></div>
+              </div>
+              <div class="card-3d-stats">
+                <div class="card-3d-num">{{ stats.totalTeachers || 0 }}</div>
+                <div class="card-3d-unit">معلم متواجد</div>
+              </div>
+            </div>
+            <div class="card-3d-progress-track">
+              <div class="card-3d-progress-fill emerald-gradient" style="width: 100%;"></div>
+            </div>
+            <div class="card-3d-footer flex-between">
+              <span class="badge-status-dot green"><span class="dot green"></span> التكليفات مكتملة</span>
+              <span class="footer-muted-text">الكادر: {{ stats.totalTeachers || 0 }}</span>
             </div>
           </div>
 
-          <!-- Card 3 -->
-          <div class="kpi-desktop-card emerald">
-            <div class="kpi-icon-circle">🏫</div>
-            <div class="kpi-body">
-              <span class="kpi-label-text">الشعب والقاعات الدراسية</span>
-              <div class="kpi-value-row">
-                <span class="kpi-big-num">{{ stats.totalSections || 0 }}</span>
-                <span class="badge-status neutral">المراحل 1 - 9</span>
+          <!-- Card 3: Classrooms & Sections -->
+          <div class="card-3d-box homework-theme">
+            <div class="card-3d-header flex-between">
+              <h4 class="card-3d-title">الشعب والقاعات الدراسية</h4>
+              <div class="card-3d-icon-pill purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               </div>
+            </div>
+            <div class="card-3d-body flex-between">
+              <div class="card-3d-img-container">
+                <img :src="schoolImg" alt="قاعات" class="card-3d-render-img" />
+                <div class="card-3d-shadow-ellipse purple-shadow"></div>
+              </div>
+              <div class="card-3d-stats">
+                <div class="card-3d-num">{{ stats.totalSections || 0 }}</div>
+                <div class="card-3d-unit">شعبة دراسية</div>
+              </div>
+            </div>
+            <div class="card-3d-progress-track">
+              <div class="card-3d-progress-fill purple-gradient" style="width: 85%;"></div>
+            </div>
+            <div class="card-3d-footer flex-between">
+              <span class="badge-status-purple-pill">المراحل 1 - 9</span>
+              <span class="footer-muted-text">إجمالي: {{ stats.totalSections || 0 }}</span>
             </div>
           </div>
 
-          <!-- Card 4 -->
-          <div class="kpi-desktop-card amber">
-            <div class="kpi-icon-circle">📝</div>
-            <div class="kpi-body">
-              <span class="kpi-label-text">المهام والامتحانات النشطة</span>
-              <div class="kpi-value-row">
-                <span class="kpi-big-num">{{ stats.totalTasks || 0 }}</span>
-                <span class="badge-status warning">هذا الأسبوع</span>
+          <!-- Card 4: Active Tasks & Exams -->
+          <div class="card-3d-box exam-theme">
+            <div class="card-3d-header flex-between">
+              <h4 class="card-3d-title">المهام والامتحانات النشطة</h4>
+              <div class="card-3d-icon-pill amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </div>
             </div>
+            <div class="card-3d-body flex-between">
+              <div class="card-3d-img-container">
+                <img :src="examImg" alt="مهام" class="card-3d-render-img" />
+                <div class="card-3d-shadow-ellipse amber-shadow"></div>
+              </div>
+              <div class="card-3d-stats">
+                <div class="card-3d-num">{{ stats.totalTasks || 0 }}</div>
+                <div class="card-3d-unit">مهمة هذا الأسبوع</div>
+              </div>
+            </div>
+            <div class="card-3d-progress-track">
+              <div class="card-3d-progress-fill amber-gradient" style="width: 75%;"></div>
+            </div>
+            <div class="card-3d-footer flex-between">
+              <span class="footer-muted-text">هذا الأسبوع</span>
+              <span class="footer-clock-pill">📝 {{ stats.totalTasks || 0 }} مادة</span>
+            </div>
           </div>
+
         </section>
 
         <!-- 2. Two-Column Desktop Grid Architecture (2fr | 1fr) -->
-        <div class="desktop-content-grid">
+        <div class="desktop-content-grid" :class="{ 'full-width-analytics': activeModule === 'analytics' }">
           <!-- LEFT MAIN CONTENT AREA (2fr) -->
           <div class="desktop-content-left">
 
@@ -744,9 +842,9 @@
                             <span class="sec-text" v-if="item.sectionName !== 'بدون شعبة'">الشعبة {{ item.sectionName }}</span>
                           </td>
                           <td v-for="slot in item.slots" :key="slot.period" class="period-slot-cell">
-                            <div class="slot-cell-content">
+                            <div class="slot-cell-content" :class="{ 'has-subject': slot.subject && slot.subject !== '-' }">
                               <strong class="slot-sub-text">{{ slot.subject }}</strong>
-                              <span class="slot-teacher-text">{{ slot.teacher }}</span>
+                              <span class="slot-teacher-text" v-if="slot.teacher && slot.teacher !== '-'">{{ slot.teacher }}</span>
                             </div>
                           </td>
                         </tr>
@@ -782,12 +880,12 @@
                     <tbody>
                       <tr v-for="day in sectionScheduleDays" :key="day.dayName">
                         <td class="day-name-cell">
-                          <strong>{{ day.dayName }}</strong>
+                          <strong class="grade-text">{{ day.dayName }}</strong>
                         </td>
                         <td v-for="slot in day.slots" :key="slot.period" class="period-slot-cell">
-                          <div class="slot-cell-content">
+                          <div class="slot-cell-content" :class="{ 'has-subject': slot.subject && slot.subject !== '-' }">
                             <strong class="slot-sub-text">{{ slot.subject }}</strong>
-                            <span class="slot-teacher-text">{{ slot.teacher }}</span>
+                            <span class="slot-teacher-text" v-if="slot.teacher && slot.teacher !== '-'">{{ slot.teacher }}</span>
                           </div>
                         </td>
                       </tr>
@@ -941,152 +1039,287 @@
               </div>
             </div>
 
-            <!-- MODULE 5: الإحصاءات والتقارير اليومية (Daily Analytics & Reports) -->
-            <div v-else-if="activeModule === 'analytics'" class="tab-pane-content">
-              <div class="desktop-card-box">
-                <div class="card-box-header flex-between">
+            <!-- MODULE 5: الإحصاءات والتقارير اليومية (Daily Analytics & Reports - SaaS Design) -->
+            <div v-else-if="activeModule === 'analytics'" class="tab-pane-content saas-analytics-pane">
+              
+              <!-- PAGE HEADER BAR -->
+              <div class="saas-page-header flex-between">
+                <div class="page-title-group flex-align-center">
+                  <div class="page-title-sq-icon">📊</div>
                   <div>
-                    <h3 class="card-box-title">📊 التقرير والمؤشرات الإحصائية اليومية للمنظومة</h3>
-                    <p class="card-box-sub">متابعة دقيقة لمعدلات حضور الطلاب والمعلمين، الواجبات والامتحانات المنشورة، ونشاط الفصول</p>
+                    <h2 class="saas-page-title">التقرير والإحصائيات اليومية للمنظومة</h2>
+                    <p class="saas-page-sub">متابعة دقيقة لمعدلات حضور الطلاب والمعلمين، الواجبات والامتحانات المنشورة، ونشاط الفصول</p>
                   </div>
-                  <div class="flex-actions-gap">
-                    <button class="desktop-secondary-btn" @click="printAnalyticsReport">
-                      🖨️ طباعة التقرير اليومي
-                    </button>
-                    <span class="count-tag-pill" style="align-self: center; font-size: 13px;">
-                      📅 اليوم: {{ currentFormattedDate }}
-                    </span>
+                </div>
+                <div class="page-header-actions flex-actions-gap">
+                  <span class="saas-date-pill">
+                    📅 اليوم: الجمعة، 16 أغسطس 2026
+                  </span>
+                  <button class="saas-print-btn" @click="printAnalyticsReport">
+                    🖨️ طباعة التقرير اليومي
+                  </button>
+                </div>
+              </div>
+
+              <!-- 1. 4 MAIN STATISTICS 3D CARDS GRID -->
+              <div class="analytics-cards-grid-3d">
+                
+                <!-- Card 1: Student Attendance -->
+                <div class="card-3d-box student-theme">
+                  <div class="card-3d-header flex-between">
+                    <h4 class="card-3d-title">حضور وغياب الطلاب</h4>
+                    <div class="card-3d-icon-pill emerald">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                    </div>
+                  </div>
+                  <div class="card-3d-body flex-between">
+                    <div class="card-3d-img-container">
+                      <img :src="studentImg" alt="طلاب" class="card-3d-render-img" />
+                      <div class="card-3d-shadow-ellipse"></div>
+                    </div>
+                    <div class="card-3d-stats">
+                      <div class="card-3d-num">{{ dailyAnalytics.studentsPresent }},{{ dailyAnalytics.studentsTotal }}</div>
+                      <div class="card-3d-unit">طالب</div>
+                    </div>
+                  </div>
+                  <div class="card-3d-progress-track">
+                    <div class="card-3d-progress-fill emerald-gradient" :style="{ width: dailyAnalytics.studentsRate + '%' }"></div>
+                  </div>
+                  <div class="card-3d-footer flex-between">
+                    <span class="badge-status-dot green"><span class="dot green"></span> الحضور {{ dailyAnalytics.studentsPresent }}</span>
+                    <span class="badge-status-dot red"><span class="dot red"></span> الغياب {{ dailyAnalytics.studentsAbsent }}</span>
                   </div>
                 </div>
 
-                <!-- 4 Main Daily Analytics Banners -->
-                <div class="analytics-cards-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
-                  
-                  <!-- Card 1: Students Attendance -->
-                  <div class="info-card-box analytics-metric-card purple-border">
-                    <div class="metric-card-header flex-between">
-                      <span class="metric-title">🎓 حضور وغياب الطلاب</span>
-                      <span class="profile-badge emerald">{{ dailyAnalytics.studentsRate }}% حضور</span>
-                    </div>
-                    <div class="metric-big-val">{{ dailyAnalytics.studentsPresent }} <span class="metric-sub-unit">/ {{ dailyAnalytics.studentsTotal }} طالب</span></div>
-                    <div class="metric-bar-wrapper">
-                      <div class="metric-bar-fill emerald" :style="{ width: dailyAnalytics.studentsRate + '%' }"></div>
-                    </div>
-                    <div class="metric-footer-row flex-between">
-                      <span class="metric-stat success">🟢 الحضور: {{ dailyAnalytics.studentsPresent }}</span>
-                      <span class="metric-stat danger">🔴 الغياب: {{ dailyAnalytics.studentsAbsent }}</span>
+                <!-- Card 2: Teacher Attendance -->
+                <div class="card-3d-box teacher-theme">
+                  <div class="card-3d-header flex-between">
+                    <h4 class="card-3d-title">حضور وغياب المعلمين</h4>
+                    <div class="card-3d-icon-pill emerald">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
                   </div>
-
-                  <!-- Card 2: Teachers Attendance -->
-                  <div class="info-card-box analytics-metric-card indigo-border">
-                    <div class="metric-card-header flex-between">
-                      <span class="metric-title">👨‍🏫 حضور وغياب المعلمين</span>
-                      <span class="profile-badge emerald">{{ dailyAnalytics.teachersRate }}% حضور</span>
+                  <div class="card-3d-body flex-between">
+                    <div class="card-3d-img-container">
+                      <img :src="teacherImg" alt="معلمون" class="card-3d-render-img" />
+                      <div class="card-3d-shadow-ellipse"></div>
                     </div>
-                    <div class="metric-big-val">{{ dailyAnalytics.teachersPresent }} <span class="metric-sub-unit">/ {{ dailyAnalytics.teachersTotal }} معلم</span></div>
-                    <div class="metric-bar-wrapper">
-                      <div class="metric-bar-fill indigo" :style="{ width: dailyAnalytics.teachersRate + '%' }"></div>
-                    </div>
-                    <div class="metric-footer-row flex-between">
-                      <span class="metric-stat success">🟢 الحضور: {{ dailyAnalytics.teachersPresent }}</span>
-                      <span class="metric-stat warning">🟡 الغياب: {{ dailyAnalytics.teachersAbsent }}</span>
+                    <div class="card-3d-stats">
+                      <div class="card-3d-num">{{ dailyAnalytics.teachersPresent }},{{ dailyAnalytics.teachersTotal }}</div>
+                      <div class="card-3d-unit">معلم</div>
                     </div>
                   </div>
-
-                  <!-- Card 3: Homework & Assignments -->
-                  <div class="info-card-box analytics-metric-card emerald-border">
-                    <div class="metric-card-header flex-between">
-                      <span class="metric-title">📚 الواجبات والتكليفات</span>
-                      <span class="profile-badge purple">{{ dailyAnalytics.homeworkComplianceRate }}% التزام</span>
-                    </div>
-                    <div class="metric-big-val">{{ dailyAnalytics.totalHomeworks }} <span class="metric-sub-unit">واجب منشور</span></div>
-                    <div class="metric-bar-wrapper">
-                      <div class="metric-bar-fill purple" :style="{ width: dailyAnalytics.homeworkComplianceRate + '%' }"></div>
-                    </div>
-                    <div class="metric-footer-row flex-between">
-                      <span class="metric-stat info">📖 النشطة: {{ dailyAnalytics.activeHomeworks }}</span>
-                      <span class="metric-stat neutral">إجمالي: {{ dailyAnalytics.totalHomeworks }}</span>
-                    </div>
+                  <div class="card-3d-progress-track">
+                    <div class="card-3d-progress-fill emerald-gradient" :style="{ width: dailyAnalytics.teachersRate + '%' }"></div>
                   </div>
-
-                  <!-- Card 4: Exams & Tests -->
-                  <div class="info-card-box analytics-metric-card amber-border">
-                    <div class="metric-card-header flex-between">
-                      <span class="metric-title">📝 الامتحانات والتقييمات</span>
-                      <span class="profile-badge amber">نشط هذا الأسبوع</span>
-                    </div>
-                    <div class="metric-big-val">{{ dailyAnalytics.totalExams }} <span class="metric-sub-unit">امتحان مجدول</span></div>
-                    <div class="metric-bar-wrapper">
-                      <div class="metric-bar-fill amber" style="width: 75%;"></div>
-                    </div>
-                    <div class="metric-footer-row flex-between">
-                      <span class="metric-stat warning">📝 اليوم: {{ dailyAnalytics.todayExams }} امتحانات</span>
-                      <span class="metric-stat info">📅 قادمة: {{ dailyAnalytics.upcomingExams }}</span>
-                    </div>
+                  <div class="card-3d-footer flex-between">
+                    <span class="badge-status-dot green"><span class="dot green"></span> الحضور {{ dailyAnalytics.teachersPresent }}</span>
+                    <span class="badge-status-dot gray"><span class="dot gray"></span> الغياب {{ dailyAnalytics.teachersAbsent }}</span>
                   </div>
-
                 </div>
 
-                <!-- 2 Split Columns: Grade-by-Grade Breakdown & Detailed Activity -->
-                <div class="profile-info-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-                  
-                  <!-- Left Col: Attendance Breakdown By Grade -->
-                  <div class="info-card-box">
-                    <h4 class="info-card-title flex-between">
-                      <span>🏫 نسبة وسجل الحضور اليومي حسب الصفوف الدراسية</span>
-                      <span class="count-tag-pill">9 صفوف</span>
-                    </h4>
-                    <div class="info-details-list">
-                      <div v-for="gAtt in gradeAttendanceBreakdown" :key="gAtt.gradeName" class="grade-att-row" style="margin-bottom: 12px;">
-                        <div class="flex-between" style="font-size: 13px; margin-bottom: 4px;">
-                          <strong style="color: #0f172a;">{{ gAtt.gradeName }}</strong>
-                          <span class="metric-stat success" style="font-weight: 700;">{{ gAtt.rate }}% ({{ gAtt.present }} حضور / {{ gAtt.absent }} غياب)</span>
-                        </div>
-                        <div class="metric-bar-wrapper" style="height: 8px;">
-                          <div class="metric-bar-fill emerald" :style="{ width: gAtt.rate + '%' }"></div>
-                        </div>
-                      </div>
+                <!-- Card 3: Homework & Assignments -->
+                <div class="card-3d-box homework-theme">
+                  <div class="card-3d-header flex-between">
+                    <h4 class="card-3d-title">الواجبات والتكليفات</h4>
+                    <div class="card-3d-icon-pill purple">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     </div>
                   </div>
-
-                  <!-- Right Col: System Operational Stats & Daily Subject Tasks -->
-                  <div class="info-card-box">
-                    <h4 class="info-card-title flex-between">
-                      <span>📋 التوزيع اليومي للمواد والنشاط التعليمي</span>
-                      <span class="count-tag-pill">مؤشرات الأداء</span>
-                    </h4>
-                    <div class="info-details-list">
-                      <div class="info-row-item" style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        <span class="info-lbl">⚡ نسبة اكتمال الحصص اليومية:</span>
-                        <span class="info-val success"><strong>100% (36 حصة منفذة)</strong></span>
-                      </div>
-                      <div class="info-row-item" style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        <span class="info-lbl">📐 الواجبات الأعلى نشاطاً (الرياضيات):</span>
-                        <span class="info-val">8 واجبات منزلية</span>
-                      </div>
-                      <div class="info-row-item" style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        <span class="info-lbl">🔬 واجبات وتقارير العلوم العامة:</span>
-                        <span class="info-val">6 واجبات منشورة</span>
-                      </div>
-                      <div class="info-row-item" style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        <span class="info-lbl">📖 تطبيقات وإعراب اللغة العربية:</span>
-                        <span class="info-val">5 واجبات معتمدة</span>
-                      </div>
-                      <div class="info-row-item" style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        <span class="info-lbl">🏫 القاعات والمعامل الدراسية الشاغرة:</span>
-                        <span class="info-val info"><strong>0 (تغطية شاملة)</strong></span>
-                      </div>
-                      <div class="info-row-item" style="padding: 10px 0;">
-                        <span class="info-lbl">🟢 تقييم انتظام اليوم الدراسي:</span>
-                        <span class="info-val success"><strong>ممتاز جداً (97% امتثال)</strong></span>
-                      </div>
+                  <div class="card-3d-body flex-between">
+                    <div class="card-3d-img-container">
+                      <img :src="homeworkImg" alt="واجبات" class="card-3d-render-img" />
+                      <div class="card-3d-shadow-ellipse purple-shadow"></div>
+                    </div>
+                    <div class="card-3d-stats">
+                      <div class="card-3d-num">{{ dailyAnalytics.totalHomeworks }}</div>
+                      <div class="card-3d-unit">واجب منشور</div>
                     </div>
                   </div>
+                  <div class="card-3d-progress-track">
+                    <div class="card-3d-progress-fill purple-gradient" :style="{ width: dailyAnalytics.homeworkComplianceRate + '%' }"></div>
+                  </div>
+                  <div class="card-3d-footer flex-between">
+                    <span class="badge-status-purple-pill">📖 النشطة: {{ dailyAnalytics.activeHomeworks }}</span>
+                    <span class="footer-muted-text">إجمالي: {{ dailyAnalytics.totalHomeworks }}</span>
+                  </div>
+                </div>
 
+                <!-- Card 4: Exams & Evaluations -->
+                <div class="card-3d-box exam-theme">
+                  <div class="card-3d-header flex-between">
+                    <h4 class="card-3d-title">الامتحانات والتقييمات</h4>
+                    <div class="card-3d-icon-pill amber">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                  </div>
+                  <div class="card-3d-body flex-between">
+                    <div class="card-3d-img-container">
+                      <img :src="examImg" alt="امتحانات" class="card-3d-render-img" />
+                      <div class="card-3d-shadow-ellipse amber-shadow"></div>
+                    </div>
+                    <div class="card-3d-stats">
+                      <div class="card-3d-num">{{ dailyAnalytics.totalExams }}</div>
+                      <div class="card-3d-unit">امتحان مجدول</div>
+                    </div>
+                  </div>
+                  <div class="card-3d-progress-track">
+                    <div class="card-3d-progress-fill amber-gradient" style="width: 75%;"></div>
+                  </div>
+                  <div class="card-3d-footer flex-between">
+                    <span class="footer-muted-text">اليوم: {{ dailyAnalytics.todayExams }} امتحانات</span>
+                    <span class="footer-clock-pill">🕒 11:00</span>
+                  </div>
                 </div>
 
               </div>
+
+              <!-- 2. TWO-COLUMN ANALYTICS GRID (50% / 50% SPLIT) -->
+              <div class="saas-two-column-grid">
+                
+                <!-- RIGHT COLUMN: Attendance Record By Grade -->
+                <div class="saas-card-box">
+                  <div class="saas-card-header flex-between">
+                    <div class="flex-align-center">
+                      <div class="card-header-sq-icon indigo">👥</div>
+                      <div>
+                        <h4 class="saas-card-title">نسبة وسجل الحضور حسب الصفوف الدراسية</h4>
+                        <p class="saas-card-sub">نظرة عامة على نسب الحضور اليومية</p>
+                      </div>
+                    </div>
+                    <div class="grade-count-pill">9 صفوف</div>
+                  </div>
+
+                  <div class="grade-att-list-saas">
+                    <div v-for="gAtt in gradeAttendanceBreakdown.slice(0, 6)" :key="gAtt.gradeName" class="saas-grade-row">
+                      <div class="grade-row-meta flex-between">
+                        <div class="flex-align-center">
+                          <span class="grade-row-title">{{ gAtt.gradeName }}</span>
+                          <span class="grade-att-badge">({{ gAtt.present }} حضور / {{ gAtt.absent }} غياب)</span>
+                        </div>
+                        <span class="grade-att-rate">{{ gAtt.rate }}%</span>
+                      </div>
+                      <div class="saas-progress-track">
+                        <div class="saas-progress-fill emerald" :style="{ width: gAtt.rate + '%' }"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="saas-card-footer">
+                    <button class="saas-footer-action-btn">عرض سجل الحضور الكامل ←</button>
+                  </div>
+                </div>
+
+                <!-- LEFT COLUMN: Performance Indicators -->
+                <div class="saas-card-box">
+                  <div class="saas-card-header flex-between">
+                    <div class="flex-align-center">
+                      <div class="card-header-sq-icon purple">📈</div>
+                      <div>
+                        <h4 class="saas-card-title">مؤشرات الأداء</h4>
+                        <p class="saas-card-sub">نظرة عامة على أداء المنظومة</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="performance-metrics-list">
+                    <!-- Metric Item 1: Circle Gauge -->
+                    <div class="saas-perf-row flex-between">
+                      <div class="perf-left-info flex-align-center">
+                        <div class="circle-gauge-pill">100%</div>
+                        <div class="perf-text-group">
+                          <h5 class="perf-item-title">نسبة اكتمال الحصص اليومية</h5>
+                          <span class="perf-item-sub">(36) حصة منفذة من (36)</span>
+                        </div>
+                      </div>
+                      <div class="perf-icon-box amber">⚡</div>
+                    </div>
+
+                    <!-- Metric Item 2: Sparkline Line Chart 1 -->
+                    <div class="saas-perf-row flex-between">
+                      <div class="perf-left-info flex-align-center">
+                        <div class="sparkline-container">
+                          <svg width="70" height="28" viewBox="0 0 70 28" fill="none">
+                            <path d="M2 20L15 12L30 22L45 8L60 16L68 4" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                        <div class="perf-text-group">
+                          <h5 class="perf-item-title">الواجبات الأعلى نشاطاً (الرياضيات)</h5>
+                          <span class="perf-item-sub">8 واجبات منزلية</span>
+                        </div>
+                      </div>
+                      <div class="perf-icon-box purple">📈</div>
+                    </div>
+
+                    <!-- Metric Item 3: Sparkline Line Chart 2 -->
+                    <div class="saas-perf-row flex-between">
+                      <div class="perf-left-info flex-align-center">
+                        <div class="sparkline-container">
+                          <svg width="70" height="28" viewBox="0 0 70 28" fill="none">
+                            <path d="M2 22L16 18L28 24L42 10L56 14L68 6" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </div>
+                        <div class="perf-text-group">
+                          <h5 class="perf-item-title">واجبات تقارير العلوم العامة</h5>
+                          <span class="perf-item-sub">6 واجبات منشورة</span>
+                        </div>
+                      </div>
+                      <div class="perf-icon-box emerald">📄</div>
+                    </div>
+                  </div>
+
+                  <div class="saas-card-footer">
+                    <button class="saas-footer-action-btn">عرض جميع المؤشرات ←</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- 3. BOTTOM RECENT ACTIVITIES & NOTIFICATIONS GRID -->
+              <div class="saas-card-box full-width-activities">
+                <div class="saas-card-header flex-align-center" style="margin-bottom: 20px;">
+                  <div class="card-header-sq-icon amber">🔔</div>
+                  <div>
+                    <h4 class="saas-card-title">التنبيهات والأنشطة الأخيرة</h4>
+                    <p class="saas-card-sub">سجل مباشر للأنشطة والإشعارات الإدارية</p>
+                  </div>
+                </div>
+
+                <div class="activities-cards-grid">
+                  <div class="activity-card-item">
+                    <div class="act-icon-sq purple">📖</div>
+                    <div class="act-content">
+                      <h5 class="act-title">تم نشر واجب جديد في مادة الرياضيات</h5>
+                      <span class="act-time">منذ 15 دقيقة</span>
+                    </div>
+                  </div>
+
+                  <div class="activity-card-item">
+                    <div class="act-icon-sq indigo">👥</div>
+                    <div class="act-content">
+                      <h5 class="act-title">تم تسجيل حضور جميع الطلاب في الصف الأول</h5>
+                      <span class="act-time">منذ 1 ساعة</span>
+                    </div>
+                  </div>
+
+                  <div class="activity-card-item">
+                    <div class="act-icon-sq amber">📅</div>
+                    <div class="act-content">
+                      <h5 class="act-title">امتحان اللغة العربية غداً في الساعة 10:00</h5>
+                      <span class="act-time">منذ 3 ساعات</span>
+                    </div>
+                  </div>
+
+                  <div class="activity-card-item">
+                    <div class="act-icon-sq emerald">👤</div>
+                    <div class="act-content">
+                      <h5 class="act-title">إضافة معلم جديد: أ. محمد خالد</h5>
+                      <span class="act-time">منذ 5 ساعات</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
             <!-- CREATION MODULE (مركز الإضافات) -->
@@ -1254,7 +1487,7 @@
           </div>
 
           <!-- RIGHT SIDEBAR DESKTOP WIDGETS (1fr) -->
-          <div class="desktop-content-right">
+          <div v-if="activeModule !== 'analytics'" class="desktop-content-right">
             <!-- Sidebar Widget 1: Quick Admin Actions -->
             <div class="desktop-card-box widget-card">
               <h4 class="widget-title">⚡ إجراءات إدارية سريعة</h4>
@@ -1620,6 +1853,12 @@ import { useRouter } from 'vue-router';
 import ShadcnDialog from '../../components/common/ShadcnDialog.vue';
 import ShadcnDrawer from '../../components/common/ShadcnDrawer.vue';
 import api from '../../services/api';
+
+import studentImg from '../../assets/student_attendance_3d.png';
+import teacherImg from '../../assets/teacher_attendance_3d.png';
+import homeworkImg from '../../assets/homework_assignments_3d.png';
+import examImg from '../../assets/exams_evaluations_3d.png';
+import schoolImg from '../../assets/school_building_3d.png';
 
 const router = useRouter();
 const loading = ref(true);
@@ -2449,1413 +2688,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-/* ===== DESKTOP ADMIN LAYOUT SYSTEM ===== */
-.desktop-admin-root {
-  background: #f1f5f9;
-  min-height: 100vh;
-  width: 100%;
-  color: #0f172a;
-  direction: rtl;
-  font-family: 'SF Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* DESKTOP TOP EXECUTIVE HEADER */
-.desktop-admin-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 16px 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-badge-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25);
-}
-
-.brand-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0;
-}
-
-.brand-subtitle {
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 600;
-}
-
-/* DESKTOP PILL NAVIGATION */
-.desktop-nav-pills {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  padding: 6px;
-  border-radius: 40px;
-}
-
-.desktop-pill-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 30px;
-  border: none;
-  background: transparent;
-  color: #475569;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.desktop-pill-btn.active {
-  background: #0f172a;
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
-}
-
-.desktop-pill-btn:hover:not(.active) {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-/* HEADER CONTROLS */
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.desktop-search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  padding: 8px 14px;
-  border-radius: 20px;
-  width: 260px;
-  color: #64748b;
-}
-
-.search-input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-family: inherit;
-  font-size: 12px;
-  color: #0f172a;
-  width: 100%;
-}
-
-.admin-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 6px 12px;
-  border-radius: 30px;
-}
-
-.avatar-box {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #e0e7ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-}
-
-.user-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-size: 12px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.user-role {
-  font-size: 10px;
-  color: #64748b;
-}
-
-.logout-btn {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-right: 4px;
-}
-
-/* DESKTOP MAIN WRAPPER */
-.desktop-main-wrapper {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 28px 36px 60px 36px;
-}
-
-.desktop-loading-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 40px;
-  text-align: center;
-  font-weight: 700;
-  color: #4f46e5;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-}
-
-/* DESKTOP KPI GRID */
-.desktop-kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.kpi-desktop-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
-}
-
-.kpi-icon-circle {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-}
-
-.kpi-desktop-card.purple .kpi-icon-circle { background: #f3e8ff; }
-.kpi-desktop-card.indigo .kpi-icon-circle { background: #e0e7ff; }
-.kpi-desktop-card.emerald .kpi-icon-circle { background: #dcfce7; }
-.kpi-desktop-card.amber .kpi-icon-circle { background: #fef3c7; }
-
-.kpi-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.kpi-label-text {
-  font-size: 12px;
-  font-weight: 700;
-  color: #64748b;
-}
-
-.kpi-value-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.kpi-big-num {
-  font-size: 26px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.badge-status {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 12px;
-}
-
-.badge-status.success { background: #dcfce7; color: #15803d; }
-.badge-status.info { background: #e0e7ff; color: #4338ca; }
-.badge-status.neutral { background: #f1f5f9; color: #475569; }
-.badge-status.warning { background: #fef3c7; color: #b45309; }
-
-/* DESKTOP CONTENT GRID (2fr | 1fr) */
-.desktop-content-grid {
-  display: grid;
-  grid-template-columns: 2.2fr 1fr;
-  gap: 24px;
-}
-
-.desktop-content-left, .desktop-content-right {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.desktop-card-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
-}
-
-.card-box-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.card-box-sub {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 2px;
-}
-
-.tag-pill-primary {
-  background: #e0e7ff;
-  color: #4338ca;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 14px;
-}
-
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.flex-actions-gap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* DESKTOP TABLES */
-.desktop-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 18px;
-}
-
-.desktop-table th {
-  text-align: right;
-  font-size: 12px;
-  font-weight: 800;
-  color: #475569;
-  padding: 14px 16px;
-  border-bottom: 1px solid #cbd5e1;
-  background: #f8fafc;
-}
-
-.desktop-table td {
-  font-size: 13px;
-  font-weight: 600;
-  color: #0f172a;
-  padding: 16px;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.table-btn-danger {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.desktop-primary-btn {
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 14px;
-  font-size: 13px;
-  font-weight: 800;
-  font-family: inherit;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25);
-}
-
-.desktop-secondary-btn {
-  background: #ffffff;
-  color: #4338ca;
-  border: 1px solid #c7d2fe;
-  padding: 10px 18px;
-  border-radius: 14px;
-  font-size: 13px;
-  font-weight: 800;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.desktop-teachers-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 18px;
-}
-
-.col-box-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 10px;
-}
-
-/* WIDGET CARDS RIGHT */
-.widget-card {
-  padding: 20px;
-}
-
-.widget-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.widget-title.light {
-  color: #ffffff;
-}
-
-.quick-actions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.quick-action-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  cursor: pointer;
-  text-align: right;
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-.quick-action-btn:hover {
-  background: #ffffff;
-  border-color: #c7d2fe;
-  box-shadow: 0 4px 14px rgba(67, 56, 202, 0.1);
-}
-
-.qa-icon {
-  font-size: 20px;
-}
-
-.qa-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.qa-main {
-  font-size: 13px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.qa-sub {
-  font-size: 11px;
-  color: #64748b;
-}
-
-.dot-live-badge {
-  background: #dcfce7;
-  color: #15803d;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-
-.activity-feed-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.activity-feed-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: #f8fafc;
-  border-radius: 14px;
-  border: 1px solid #f1f5f9;
-}
-
-.feed-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-}
-
-.feed-icon.purple { background: #f3e8ff; }
-.feed-icon.emerald { background: #dcfce7; }
-.feed-icon.amber { background: #fef3c7; }
-.feed-icon.indigo { background: #e0e7ff; }
-
-.feed-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.feed-text {
-  font-size: 12px;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.feed-time {
-  font-size: 10px;
-  color: #64748b;
-}
-
-.info-gradient-card {
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-  color: #ffffff;
-}
-
-.system-meta-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.meta-row-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-}
-
-.meta-lbl {
-  color: #c7d2fe;
-}
-
-.meta-val {
-  font-weight: 800;
-}
-
-.meta-val.success {
-  color: #4ade80;
-}
-
-/* 3D SQUIRCLE STRUCTURE MODIFIED FOR DESKTOP */
-.add-mini-pill-btn {
-  background: #f1f5f9;
-  color: #334155;
-  border: 1px solid #cbd5e1;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.add-mini-pill-btn.primary {
-  background: #4f46e5;
-  color: #ffffff;
-  border: none;
-}
-
-.sections-pills-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 12px 0 16px 0;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border: 1px solid #f1f5f9;
-  border-radius: 14px;
-  flex-wrap: wrap;
-}
-
-.sections-row-label {
-  font-size: 12px;
-  font-weight: 800;
-  color: #334155;
-}
-
-.sections-pills-list {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.sec-pill-tag {
-  background: #ffffff;
-  color: #0f172a;
-  border: 1px solid #cbd5e1;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.sec-pill-tag.subject {
-  background: #eef2ff;
-  color: #3730a3;
-  border-color: #c7d2fe;
-}
-
-.sched-subject-squircle.section-card-only {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  min-height: auto;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-}
-
-.bold-sec-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0;
-}
-
-.sched-icon-box.class-icon {
-  background: #e0e7ff;
-  color: #4338ca;
-}
-
-.remove-pill-btn {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.remove-pill-btn:hover {
-  color: #ef4444;
-}
-
-.squircle-footer-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 4px;
-}
-
-.delete-sub-icon-btn {
-  background: #fef2f2;
-  color: #ef4444;
-  border: 1px solid #fecaca;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font-size: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.exam-ref-grid.grid-3-cols {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr) !important;
-  gap: 12px;
-}
-
-.sched-subject-squircle.section-click {
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.sched-subject-squircle.section-click:hover {
-  transform: translateY(-2px);
-  border-color: #6366f1;
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.12);
-}
-
-.sec-drawer-tabs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  padding: 6px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-}
-
-.sec-tab-btn {
-  flex: 1;
-  padding: 8px 12px;
-  border-radius: 12px;
-  border: none;
-  background: transparent;
-  color: #475569;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.sec-tab-btn.active {
-  background: #0f172a;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
-}
-
-.sec-body-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 14px;
-}
-
-.drawer-sched-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.drawer-sched-day {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.day-label-badge {
-  font-size: 12px;
-  font-weight: 800;
-  color: #4338ca;
-  background: #e0e7ff;
-  padding: 4px 10px;
-  border-radius: 8px;
-  align-self: flex-start;
-}
-
-.day-slots-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.slot-card-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 8px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.slot-period-tag {
-  font-size: 10px;
-  color: #64748b;
-}
-
-.slot-sub-title {
-  font-size: 12px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.slot-tech-name {
-  font-size: 11px;
-  color: #475569;
-}
-
-.back-to-structure-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  color: #0f172a;
-  padding: 8px 16px;
-  border-radius: 14px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.back-to-structure-btn:hover {
-  background: #0f172a;
-  color: #ffffff;
-}
-
-.sec-title-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-.full-page-sec-tabs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  padding: 8px;
-  border-radius: 20px;
-  margin: 20px 0;
-}
-
-.full-sec-tab-btn {
-  flex: 1;
-  padding: 10px 16px;
-  border-radius: 14px;
-  border: none;
-  background: transparent;
-  color: #475569;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.full-sec-tab-btn.active {
-  background: #4f46e5;
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
-}
-
-.full-tab-body {
-  margin-top: 16px;
-}
-
-.body-header-margin {
-  margin-bottom: 16px;
-}
-
-.schedule-table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 18px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-}
-
-.desktop-schedule-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #ffffff;
-}
-
-.desktop-schedule-table th {
-  background: #f8fafc;
-  border-bottom: 2px solid #cbd5e1;
-  border-left: 1px solid #e2e8f0;
-  padding: 14px 10px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.day-col-header {
-  width: 130px;
-  background: #e0e7ff !important;
-  color: #4338ca !important;
-}
-
-.period-col-header {
-  background: #f8fafc;
-}
-
-.desktop-schedule-table td {
-  border-bottom: 1px solid #f1f5f9;
-  border-left: 1px solid #f1f5f9;
-  padding: 10px 8px;
-  text-align: center;
-}
-
-.day-name-cell {
-  background: #f8fafc;
-  font-size: 13px;
-  font-weight: 800;
-  color: #4338ca;
-  width: 130px;
-}
-
-.period-slot-cell {
-  vertical-align: middle;
-}
-
-.slot-cell-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 10px 8px;
-  background: #f8fafc;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  transition: all 0.2s ease;
-}
-
-.slot-cell-content:hover {
-  background: #eef2ff;
-  border-color: #c7d2fe;
-}
-
-.slot-sub-text {
-  font-size: 12px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.slot-teacher-text {
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 600;
-}
-
-.structure-master-table td {
-  padding: 16px;
-  vertical-align: middle;
-}
-
-.grade-badge-flex {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.grade-level-pill {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #e0e7ff;
-  color: #4338ca;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 13px;
-  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.15);
-}
-
-.grade-title-text {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.table-items-flex {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.clickable-sec-pill {
-  cursor: pointer;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  transition: all 0.2s ease;
-}
-
-.clickable-sec-pill:hover {
-  background: #0f172a;
-  color: #ffffff;
-  border-color: #0f172a;
-}
-
-.clickable-sec-pill:hover .remove-pill-btn {
-  color: #f87171;
-}
-
-.table-actions-btns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-/* CREATION MODULE STYLES */
-.creation-forms-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 16px;
-}
-
-.creation-form-card {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 20px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-  transition: all 0.2s ease;
-}
-
-.creation-form-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  border-color: #94a3b8;
-}
-
-.creation-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #f1f5f9;
-  padding-bottom: 12px;
-}
-
-.creation-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.creation-icon.purple { background: #f3e8ff; color: #7e22ce; }
-.creation-icon.emerald { background: #d1fae5; color: #047857; }
-.creation-icon.indigo { background: #e0e7ff; color: #4338ca; }
-.creation-icon.amber { background: #fef3c7; color: #b45309; }
-.creation-icon.teal { background: #ccfbf1; color: #0f766e; }
-
-.creation-card-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0;
-}
-
-.creation-card-desc {
-  font-size: 11px;
-  color: #64748b;
-  margin: 2px 0 0 0;
-}
-
-.creation-form-body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.creation-submit-btn {
-  background: #0f172a;
-  color: #ffffff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 14px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  margin-top: 6px;
-  transition: all 0.2s ease;
-}
-
-.creation-submit-btn:hover {
-  background: #4f46e5;
-  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
-}
-
-/* FORM MODALS */
-.teacher-create-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.form-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #334155;
-}
-
-.form-input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  font-family: inherit;
-  font-size: 13px;
-  color: #0f172a;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.shadcn-btn-primary {
-  background: #0f172a;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.shadcn-btn-secondary {
-  background: #ffffff;
-  color: #475569;
-  border: 1px solid #cbd5e1;
-  padding: 10px 18px;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* DAY SWITCHER & MASTER DAILY SCHEDULE STYLES */
-.day-switcher-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.day-bar-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #475569;
-}
-
-.day-pill-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid #cbd5e1;
-  background: #f8fafc;
-  color: #475569;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.day-pill-btn:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-.day-pill-btn.active {
-  background: #6366f1;
-  color: #ffffff;
-  border-color: #6366f1;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
-}
-
-.section-label-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  justify-content: center;
-  padding: 10px 14px !important;
-}
-
-.section-label-cell .grade-text {
-  font-size: 13px;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-.section-label-cell .sec-text {
-  font-size: 11px;
-  color: #6366f1;
-  font-weight: 700;
-  background: #eef2ff;
-  padding: 2px 8px;
-  border-radius: 10px;
-  display: inline-block;
-  width: fit-content;
-}
-
-.small-btn {
-  padding: 6px 12px;
-  font-size: 12px;
-}
-
-/* CLICKABLE STUDENT ROWS & STUDENT PROFILE STYLES */
-.clickable-student-row {
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.clickable-student-row:hover {
-  background: #f1f5f9 !important;
-}
-
-.clickable-name {
-  color: #4f46e5;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.clickable-name:hover {
-  text-decoration: underline;
-}
-
-.table-actions-inline {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.table-btn-secondary {
-  background: #f1f5f9;
-  color: #334155;
-  border: 1px solid #cbd5e1;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.table-btn-secondary:hover {
-  background: #e2e8f0;
-  color: #0f172a;
-}
-
-.profile-hero-banner {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  padding: 24px;
-  border-radius: 16px;
-  color: #ffffff;
-  margin-bottom: 24px;
-}
-
-.profile-avatar-big {
-  font-size: 44px;
-  width: 76px;
-  height: 76px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.profile-student-name {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0 0 8px 0;
-}
-
-.profile-badges-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.profile-badge {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 12px;
-}
-
-.profile-badge.purple { background: #ede9fe; color: #6d28d9; }
-.profile-badge.indigo { background: #e0e7ff; color: #3730a3; }
-.profile-badge.emerald { background: #d1fae5; color: #065f46; }
-
-.profile-info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.info-card-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 20px;
-}
-
-.info-card-title {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 16px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed #cbd5e1;
-}
-
-.info-details-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.info-row-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-}
-
-.info-lbl {
-  color: #64748b;
-  font-weight: 600;
-}
-
-.info-val {
-  color: #0f172a;
-}
-
-/* DAILY ANALYTICS MODULE STYLES */
-.analytics-metric-card {
-  padding: 16px;
-  background: #ffffff;
-  border-radius: 14px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-}
-
-.purple-border { border-top: 4px solid #8b5cf6; }
-.indigo-border { border-top: 4px solid #6366f1; }
-.emerald-border { border-top: 4px solid #10b981; }
-.amber-border { border-top: 4px solid #f59e0b; }
-
-.metric-card-header {
-  margin-bottom: 8px;
-}
-
-.metric-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #475569;
-}
-
-.metric-big-val {
-  font-size: 24px;
-  font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 10px;
-}
-
-.metric-sub-unit {
-  font-size: 13px;
-  font-weight: 600;
-  color: #64748b;
-}
-
-.metric-bar-wrapper {
-  height: 6px;
-  background: #e2e8f0;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-.metric-bar-fill {
-  height: 100%;
-  border-radius: 10px;
-  transition: width 0.4s ease;
-}
-
-.metric-bar-fill.emerald { background: #10b981; }
-.metric-bar-fill.indigo { background: #6366f1; }
-.metric-bar-fill.purple { background: #8b5cf6; }
-.metric-bar-fill.amber { background: #f59e0b; }
-
-.metric-footer-row {
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.metric-stat.success { color: #059669; }
-.metric-stat.danger { color: #dc2626; }
-.metric-stat.warning { color: #d97706; }
-.metric-stat.info { color: #2563eb; }
-.metric-stat.neutral { color: #64748b; }
-</style>
+<style scoped src="./AdminDashboardView.css"></style>
