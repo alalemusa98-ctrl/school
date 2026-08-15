@@ -110,7 +110,6 @@ onUnmounted(() => {
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 10px 20px -5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   position: relative;
 }
 
@@ -174,8 +173,6 @@ onUnmounted(() => {
 /* Body */
 .shadcn-dialog-body {
   padding: 20px 24px;
-  max-height: 65vh;
-  overflow-y: auto;
   font-size: 14px;
   color: #334155;
   line-height: 1.6;

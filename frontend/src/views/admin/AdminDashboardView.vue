@@ -4,7 +4,9 @@
     <header class="saas-executive-header">
       <!-- Right: Brand Logo & Title -->
       <div class="header-brand-group">
-        <div class="brand-sq-icon">🎓</div>
+        <div class="brand-sq-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+        </div>
         <div class="brand-title-box">
           <h1 class="brand-main-title">منظومة إدارة المدرسة</h1>
           <span class="brand-sub-title">لوحة التحكم الإدارية الشاملة</span>
@@ -13,25 +15,100 @@
 
       <!-- Center: Soft Search Input Bar -->
       <div class="header-center-search">
-        <span class="search-glass-icon">🔍</span>
+        <svg class="search-glass-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" placeholder="بحث سريع عن طالب، معلم، أو مادة..." class="saas-search-input" />
       </div>
 
       <!-- Left: Notifications Bell & User Profile Pill -->
       <div class="header-left-actions">
         <button class="notif-bell-btn" title="التنبيهات">
-          <span>🔔</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <span class="notif-dot-badge">3</span>
         </button>
 
-        <div class="user-profile-pill">
-          <div class="user-avatar-circle">👨‍💼</div>
-          <div class="user-info-meta">
-            <span class="user-display-name">مدير المنظومة</span>
-            <span class="user-display-role">المدير العام</span>
-          </div>
-          <span class="dropdown-caret-icon">▾</span>
-          <button class="logout-mini-icon" title="تسجيل الخروج" @click="handleLogout">🚪</button>
+        <!-- User Profile Pill with macOS Style Floating Dropdown -->
+        <div class="user-profile-dropdown-container">
+          <button class="user-profile-pill" @click="showProfileDropdown = !showProfileDropdown">
+            <div class="user-avatar-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="user-info-meta">
+              <span class="user-display-name">مدير المنظومة</span>
+              <span class="user-display-role">المدير العام</span>
+            </div>
+            <svg class="dropdown-caret-icon" :class="{ open: showProfileDropdown }" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+
+          <!-- macOS / Apple Style Floating Menu Dropdown -->
+          <transition name="mac-dropdown">
+            <div v-if="showProfileDropdown" class="mac-dropdown-menu" @click.stop>
+              <!-- Menu Header / User Summary -->
+              <div class="mac-dropdown-header">
+                <div class="mac-header-avatar">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="mac-header-info">
+                  <span class="mac-user-name">مدير المنظومة</span>
+                  <span class="mac-user-email">admin@school.edu.sa</span>
+                </div>
+              </div>
+
+              <div class="mac-dropdown-divider"></div>
+
+              <!-- Menu Items Group 1 -->
+              <div class="mac-dropdown-group">
+                <button class="mac-dropdown-item" @click="activeModule = 'analytics'; showProfileDropdown = false">
+                  <div class="item-left">
+                    <svg class="item-svg-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span>اللوحة التفاعلية</span>
+                  </div>
+                  <span class="item-shortcut">⌘1</span>
+                </button>
+
+                <button class="mac-dropdown-item" @click="activeModule = 'classrooms'; showProfileDropdown = false">
+                  <div class="item-left">
+                    <svg class="item-svg-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                    <span>الفصول والقاعات</span>
+                  </div>
+                  <span class="item-shortcut">⌘2</span>
+                </button>
+
+                <button class="mac-dropdown-item" @click="activeModule = 'schedule'; showProfileDropdown = false">
+                  <div class="item-left">
+                    <svg class="item-svg-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>الجدول الدراسي</span>
+                  </div>
+                  <span class="item-shortcut">⌘3</span>
+                </button>
+              </div>
+
+              <div class="mac-dropdown-divider"></div>
+
+              <!-- Menu Items Group 2 -->
+              <div class="mac-dropdown-group">
+                <button class="mac-dropdown-item" @click="fetchInitialData(); showProfileDropdown = false">
+                  <div class="item-left">
+                    <svg class="item-svg-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    <span>تحديث البيانات الحية</span>
+                  </div>
+                  <span class="item-shortcut">⌘R</span>
+                </button>
+              </div>
+
+              <div class="mac-dropdown-divider"></div>
+
+              <!-- Menu Items Group 3: Danger/Logout -->
+              <div class="mac-dropdown-group">
+                <button class="mac-dropdown-item danger" @click="handleLogout">
+                  <div class="item-left">
+                    <svg class="item-svg-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>تسجيل الخروج</span>
+                  </div>
+                  <span class="item-shortcut">⌥⌘Q</span>
+                </button>
+              </div>
+            </div>
+          </transition>
         </div>
       </div>
     </header>
@@ -44,7 +121,7 @@
           :class="{ active: activeModule === 'analytics' }"
           @click="activeModule = 'analytics'"
         >
-          <span class="nav-icon">🏠</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span>الرئيسية</span>
         </button>
 
@@ -53,7 +130,7 @@
           :class="{ active: activeModule === 'students' || activeModule === 'student-details' }"
           @click="activeModule = 'students'"
         >
-          <span class="nav-icon">👥</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           <span>الطلاب</span>
         </button>
 
@@ -62,7 +139,7 @@
           :class="{ active: activeModule === 'teachers' || activeModule === 'teacher-details' }"
           @click="activeModule = 'teachers'"
         >
-          <span class="nav-icon">👨‍🏫</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span>المعلمون</span>
         </button>
 
@@ -71,7 +148,7 @@
           :class="{ active: activeModule === 'classrooms' || activeModule === 'structure' || activeModule === 'section-details' || activeModule === 'grade-details' }"
           @click="activeModule = 'classrooms'"
         >
-          <span class="nav-icon">📖</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
           <span>الفصول</span>
         </button>
 
@@ -79,7 +156,7 @@
           class="saas-nav-link" 
           @click="activeModule = 'classrooms'"
         >
-          <span class="nav-icon">📚</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           <span>المواد الدراسية</span>
         </button>
 
@@ -88,27 +165,31 @@
           :class="{ active: activeModule === 'schedule' }"
           @click="activeModule = 'schedule'"
         >
-          <span class="nav-icon">📅</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           <span>الجدول الدراسي</span>
         </button>
 
         <button class="saas-nav-link" @click="activeModule = 'analytics'">
-          <span class="nav-icon">💼</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
           <span>الواجبات</span>
         </button>
 
         <button class="saas-nav-link" @click="activeModule = 'analytics'">
-          <span class="nav-icon">📊</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           <span>الامتحانات</span>
         </button>
 
         <button class="saas-nav-link" @click="activeModule = 'analytics'">
-          <span class="nav-icon">📈</span>
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           <span>التقارير</span>
         </button>
 
-        <button class="saas-nav-link" @click="activeModule = 'creation'">
-          <span class="nav-icon">⚙️</span>
+        <button 
+          class="saas-nav-link" 
+          :class="{ active: activeModule === 'creation' }"
+          @click="activeModule = 'creation'"
+        >
+          <svg class="nav-svg-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           <span>الإعدادات</span>
         </button>
       </div>
@@ -244,18 +325,24 @@
               <div class="desktop-card-box">
                 <div class="card-box-header flex-between">
                   <div>
-                    <h3 class="card-box-title">🏫 الهيكل التعليمي والفصول الدراسية</h3>
+                    <h3 class="card-box-title flex-align-center">
+                      <svg class="title-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                      <span>الهيكل التعليمي والفصول الدراسية</span>
+                    </h3>
                     <p class="card-box-sub">عرض وإدارة الصفوف الدراسية 1-9، الشعب والقاعات، والمواد التعليمية</p>
                   </div>
                   <div class="flex-actions-gap">
-                    <button class="desktop-secondary-btn" @click="showAddSubjectModal = true">
-                      📖 إضافة مادة
+                    <button class="desktop-secondary-btn flex-align-center" @click="showAddSubjectModal = true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      <span>إضافة مادة</span>
                     </button>
-                    <button class="desktop-secondary-btn" @click="showAddSectionModal = true">
-                      🏢 إضافة شعبة
+                    <button class="desktop-secondary-btn flex-align-center" @click="showAddSectionModal = true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/></svg>
+                      <span>إضافة شعبة</span>
                     </button>
-                    <button class="desktop-primary-btn" @click="activeModule = 'creation'">
-                      ➕ إضافة صف دراسي
+                    <button class="desktop-primary-btn flex-align-center" @click="activeModule = 'creation'">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      <span>إضافة صف دراسي</span>
                     </button>
                   </div>
                 </div>
@@ -264,16 +351,24 @@
                   <thead>
                     <tr>
                       <th style="width: 240px;">الصف الدراسي (اضغط للتفاصيل)</th>
-                      <th>🏫 الشعب والقاعات الدراسية (اضغط للتفاصيل والجدول)</th>
+                      <th>
+                        <span class="flex-align-center" style="gap: 6px;">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/></svg>
+                          <span>الشعب والقاعات الدراسية (اضغط للتفاصيل والجدول)</span>
+                        </span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="g in grades" :key="g.id">
                       <!-- 1. الصف الدراسي -->
                       <td class="grade-name-cell clickable-student-row" @click="openGradeDetail(g)" title="اضغط لعرض كافة بيانات وإحصائيات هذا الصف الدراسي">
-                        <div class="grade-badge-flex">
+                        <div class="grade-badge-flex flex-align-center">
                           <span class="grade-level-pill">{{ g.level }}</span>
-                          <strong class="grade-title-text clickable-name">🏫 {{ g.name }}</strong>
+                          <strong class="grade-title-text clickable-name flex-align-center" style="gap: 6px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                            <span>{{ g.name }}</span>
+                          </strong>
                         </div>
                       </td>
 
@@ -283,11 +378,13 @@
                           <span 
                             v-for="sec in g.sections" 
                             :key="sec.id" 
-                            class="sec-pill-tag clickable-sec-pill"
+                            class="sec-pill-tag clickable-sec-pill flex-align-center"
+                            style="gap: 4px;"
                             @click="openSectionDetailModal(sec, g)"
                             title="اضغط لعرض جدول وتفاصيل الشعبة"
                           >
-                            🏫 الشعبة {{ sec.name }}
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-3"/></svg>
+                            <span>الشعبة {{ sec.name }}</span>
                           </span>
                           <span v-if="!g.sections || g.sections.length === 0" class="empty-pill-muted">لا توجد شعب منشأة</span>
                         </div>
@@ -445,41 +542,47 @@
               <div class="desktop-card-box">
                 <div class="card-box-header flex-between">
                   <div>
-                    <h3 class="card-box-title">🎓 إدارة سجلات وحسابات الطلاب</h3>
+                    <h3 class="card-box-title flex-align-center">
+                      <svg class="title-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                      <span>إدارة سجلات وحسابات الطلاب</span>
+                    </h3>
                     <p class="card-box-sub">انقر على أي طالب لمشاهدة ملفه الكامل أو تنفيذ إجراءات النقل والتعديل</p>
                   </div>
                   <div class="flex-actions-gap">
-                    <button class="desktop-secondary-btn" @click="openTransferStudentModal(null)">
-                      🔄 نقل طالب
+                    <button class="desktop-secondary-btn flex-align-center" @click="openTransferStudentModal(null)">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                      <span>نقل طالب</span>
                     </button>
-                    <button class="desktop-primary-btn" @click="showAddStudentModal = true">
-                      ➕ إضافة طالب جديد
+                    <button class="desktop-primary-btn flex-align-center" @click="showAddStudentModal = true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      <span>إضافة طالب جديد</span>
                     </button>
                   </div>
                 </div>
 
-                <!-- Filters & Search Bar for Students -->
-                <div class="students-filter-row" style="display: flex; gap: 12px; margin-bottom: 16px;">
-                  <div class="search-box-flex" style="flex: 1;">
+                <div class="students-filter-row" style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center;">
+                  <div class="search-box-flex search-input-container" style="flex: 1; position: relative;">
+                    <svg class="input-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     <input 
                       type="text" 
                       v-model="studentSearchQuery" 
-                      placeholder="🔍 بحث باسم الطالب، كود الطالب، أو رقم الجلوس..." 
+                      placeholder="بحث باسم الطالب، كود الطالب، أو رقم الجلوس..." 
                       class="form-input"
+                      style="padding-right: 38px;"
                     />
                   </div>
-                  <select v-model="studentGradeFilter" class="form-input" style="width: 180px;">
-                    <option value="">جميع الصفوف</option>
-                    <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-                  </select>
-                  <select v-model="studentSectionFilter" class="form-input" style="width: 180px;">
-                    <option value="">جميع الشعب</option>
-                    <template v-for="g in grades" :key="g.id">
-                      <option v-for="sec in g.sections" :key="sec.id" :value="sec.id">
-                        {{ g.name }} - {{ sec.name }}
-                      </option>
-                    </template>
-                  </select>
+                  <CustomSelect 
+                    v-model="studentGradeFilter" 
+                    :options="gradeOptions" 
+                    placeholder="جميع الصفوف" 
+                    width="190px" 
+                  />
+                  <CustomSelect 
+                    v-model="studentSectionFilter" 
+                    :options="studentSectionOptions" 
+                    placeholder="جميع الشعب" 
+                    width="220px" 
+                  />
                 </div>
 
                 <table class="desktop-table">
@@ -504,15 +607,24 @@
                       <td><strong>{{ st.roll_number }}</strong></td>
                       <td><code>{{ st.student_code }}</code></td>
                       <td class="student-name-cell flex-align-gap">
-                        <span class="clickable-name">🎓 {{ st.full_name }}</span>
+                        <span class="clickable-name flex-align-center" style="gap: 6px;">
+                          <svg class="student-row-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                          <span>{{ st.full_name }}</span>
+                        </span>
                       </td>
                       <td><span class="sec-pill-tag grade">{{ st.grade_name }}</span></td>
                       <td><span class="sec-pill-tag section">{{ st.section_name }}</span></td>
                       <td @click.stop>
                         <div class="table-actions-inline">
-                          <button class="table-btn-secondary" @click="openTransferStudentModal(st)" title="نقل الطالب لصف/شعبة أخرى">🔄 نقل</button>
-                          <button class="table-btn-secondary" @click="openEditStudentModal(st)" title="تعديل بيانات الطالب">✏️ تعديل</button>
-                          <button class="table-btn-danger" @click="handleDeleteStudent(st.id)" title="حذف الطالب">حذف</button>
+                          <button class="table-btn-icon secondary" @click="openTransferStudentModal(st)" title="نقل الطالب لصف/شعبة أخرى" aria-label="نقل الطالب">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          </button>
+                          <button class="table-btn-icon secondary" @click="openEditStudentModal(st)" title="تعديل بيانات الطالب" aria-label="تعديل الطالب">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                          </button>
+                          <button class="table-btn-icon danger" @click="handleDeleteStudent(st.id)" title="حذف الطالب" aria-label="حذف الطالب">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -796,16 +908,14 @@
                       الجدول الدراسي الأسبوعي للشعبة المحددة (من الأحد إلى الخميس - 6 حصص يومياً)
                     </p>
                   </div>
-                  <div class="flex-actions-gap">
+                  <div class="flex-actions-gap" style="align-items: center;">
                     <label class="form-label inline-label" style="margin: 0; align-self: center;">تصفية حسب الشعبة:</label>
-                    <select v-model="selectedScheduleSectionId" class="form-input select-schedule-filter" style="width: auto; min-width: 240px;">
-                      <option value="">🏫 جميع الشعب (جدول اليوم الحالي)</option>
-                      <template v-for="g in grades" :key="g.id">
-                        <option v-for="sec in g.sections" :key="sec.id" :value="sec.id">
-                          {{ g.name }} - الشعبة {{ sec.name }}
-                        </option>
-                      </template>
-                    </select>
+                    <CustomSelect 
+                      v-model="selectedScheduleSectionId" 
+                      :options="scheduleSectionOptions" 
+                      placeholder="🏫 جميع الشعب (جدول اليوم الحالي)" 
+                      width="280px" 
+                    />
                   </div>
                 </div>
 
@@ -1045,18 +1155,22 @@
               <!-- PAGE HEADER BAR -->
               <div class="saas-page-header flex-between">
                 <div class="page-title-group flex-align-center">
-                  <div class="page-title-sq-icon">📊</div>
+                  <div class="page-title-sq-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                  </div>
                   <div>
                     <h2 class="saas-page-title">التقرير والإحصائيات اليومية للمنظومة</h2>
                     <p class="saas-page-sub">متابعة دقيقة لمعدلات حضور الطلاب والمعلمين، الواجبات والامتحانات المنشورة، ونشاط الفصول</p>
                   </div>
                 </div>
                 <div class="page-header-actions flex-actions-gap">
-                  <span class="saas-date-pill">
-                    📅 اليوم: الجمعة، 16 أغسطس 2026
+                  <span class="saas-date-pill flex-align-center" style="gap: 6px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>اليوم: الجمعة، 16 أغسطس 2026</span>
                   </span>
-                  <button class="saas-print-btn" @click="printAnalyticsReport">
-                    🖨️ طباعة التقرير اليومي
+                  <button class="saas-print-btn flex-align-center" style="gap: 6px;" @click="printAnalyticsReport">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    <span>طباعة التقرير اليومي</span>
                   </button>
                 </div>
               </div>
@@ -1123,7 +1237,7 @@
                   <div class="card-3d-header flex-between">
                     <h4 class="card-3d-title">الواجبات والتكليفات</h4>
                     <div class="card-3d-icon-pill purple">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                     </div>
                   </div>
                   <div class="card-3d-body flex-between">
@@ -1140,7 +1254,7 @@
                     <div class="card-3d-progress-fill purple-gradient" :style="{ width: dailyAnalytics.homeworkComplianceRate + '%' }"></div>
                   </div>
                   <div class="card-3d-footer flex-between">
-                    <span class="badge-status-purple-pill">📖 النشطة: {{ dailyAnalytics.activeHomeworks }}</span>
+                    <span class="badge-status-purple-pill">النشطة: {{ dailyAnalytics.activeHomeworks }}</span>
                     <span class="footer-muted-text">إجمالي: {{ dailyAnalytics.totalHomeworks }}</span>
                   </div>
                 </div>
@@ -1168,7 +1282,10 @@
                   </div>
                   <div class="card-3d-footer flex-between">
                     <span class="footer-muted-text">اليوم: {{ dailyAnalytics.todayExams }} امتحانات</span>
-                    <span class="footer-clock-pill">🕒 11:00</span>
+                    <span class="footer-clock-pill flex-align-center" style="gap: 4px;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      <span>11:00</span>
+                    </span>
                   </div>
                 </div>
 
@@ -1181,7 +1298,9 @@
                 <div class="saas-card-box">
                   <div class="saas-card-header flex-between">
                     <div class="flex-align-center">
-                      <div class="card-header-sq-icon indigo">👥</div>
+                      <div class="card-header-sq-icon indigo">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      </div>
                       <div>
                         <h4 class="saas-card-title">نسبة وسجل الحضور حسب الصفوف الدراسية</h4>
                         <p class="saas-card-sub">نظرة عامة على نسب الحضور اليومية</p>
@@ -1214,7 +1333,9 @@
                 <div class="saas-card-box">
                   <div class="saas-card-header flex-between">
                     <div class="flex-align-center">
-                      <div class="card-header-sq-icon purple">📈</div>
+                      <div class="card-header-sq-icon purple">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                      </div>
                       <div>
                         <h4 class="saas-card-title">مؤشرات الأداء</h4>
                         <p class="saas-card-sub">نظرة عامة على أداء المنظومة</p>
@@ -1232,7 +1353,9 @@
                           <span class="perf-item-sub">(36) حصة منفذة من (36)</span>
                         </div>
                       </div>
-                      <div class="perf-icon-box amber">⚡</div>
+                      <div class="perf-icon-box amber">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                      </div>
                     </div>
 
                     <!-- Metric Item 2: Sparkline Line Chart 1 -->
@@ -1248,7 +1371,9 @@
                           <span class="perf-item-sub">8 واجبات منزلية</span>
                         </div>
                       </div>
-                      <div class="perf-icon-box purple">📈</div>
+                      <div class="perf-icon-box purple">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                      </div>
                     </div>
 
                     <!-- Metric Item 3: Sparkline Line Chart 2 -->
@@ -1264,7 +1389,9 @@
                           <span class="perf-item-sub">6 واجبات منشورة</span>
                         </div>
                       </div>
-                      <div class="perf-icon-box emerald">📄</div>
+                      <div class="perf-icon-box emerald">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                      </div>
                     </div>
                   </div>
 
@@ -1278,7 +1405,9 @@
               <!-- 3. BOTTOM RECENT ACTIVITIES & NOTIFICATIONS GRID -->
               <div class="saas-card-box full-width-activities">
                 <div class="saas-card-header flex-align-center" style="margin-bottom: 20px;">
-                  <div class="card-header-sq-icon amber">🔔</div>
+                  <div class="card-header-sq-icon amber">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  </div>
                   <div>
                     <h4 class="saas-card-title">التنبيهات والأنشطة الأخيرة</h4>
                     <p class="saas-card-sub">سجل مباشر للأنشطة والإشعارات الإدارية</p>
@@ -1287,7 +1416,9 @@
 
                 <div class="activities-cards-grid">
                   <div class="activity-card-item">
-                    <div class="act-icon-sq purple">📖</div>
+                    <div class="act-icon-sq purple">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
                     <div class="act-content">
                       <h5 class="act-title">تم نشر واجب جديد في مادة الرياضيات</h5>
                       <span class="act-time">منذ 15 دقيقة</span>
@@ -1295,7 +1426,9 @@
                   </div>
 
                   <div class="activity-card-item">
-                    <div class="act-icon-sq indigo">👥</div>
+                    <div class="act-icon-sq indigo">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
                     <div class="act-content">
                       <h5 class="act-title">تم تسجيل حضور جميع الطلاب في الصف الأول</h5>
                       <span class="act-time">منذ 1 ساعة</span>
@@ -1303,7 +1436,9 @@
                   </div>
 
                   <div class="activity-card-item">
-                    <div class="act-icon-sq amber">📅</div>
+                    <div class="act-icon-sq amber">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
                     <div class="act-content">
                       <h5 class="act-title">امتحان اللغة العربية غداً في الساعة 10:00</h5>
                       <span class="act-time">منذ 3 ساعات</span>
@@ -1311,7 +1446,9 @@
                   </div>
 
                   <div class="activity-card-item">
-                    <div class="act-icon-sq emerald">👤</div>
+                    <div class="act-icon-sq emerald">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
+                    </div>
                     <div class="act-content">
                       <h5 class="act-title">إضافة معلم جديد: أ. محمد خالد</h5>
                       <span class="act-time">منذ 5 ساعات</span>
@@ -1370,10 +1507,12 @@
                     <form @submit.prevent="handleCreateSectionFromPage" class="creation-form-body">
                       <div class="form-group">
                         <label class="form-label">اختر الصف الدراسي *</label>
-                        <select v-model="newSectionForm.grade_id" required class="form-input">
-                          <option value="" disabled>اختر الصف...</option>
-                          <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-                        </select>
+                        <CustomSelect 
+                          v-model="newSectionForm.grade_id" 
+                          :options="gradeModalOptions" 
+                          placeholder="اختر الصف..." 
+                          width="100%" 
+                        />
                       </div>
                       <div class="form-group">
                         <label class="form-label">اسم الشعبة *</label>
@@ -1411,17 +1550,21 @@
                       <div class="form-row">
                         <div class="form-group">
                           <label class="form-label">الصف الدراسي *</label>
-                          <select v-model="newStudent.grade_id" required class="form-input">
-                            <option value="" disabled>اختر الصف...</option>
-                            <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-                          </select>
+                          <CustomSelect 
+                            v-model="newStudent.grade_id" 
+                            :options="gradeModalOptions" 
+                            placeholder="اختر الصف..." 
+                            width="100%" 
+                          />
                         </div>
                         <div class="form-group">
                           <label class="form-label">الشعبة *</label>
-                          <select v-model="newStudent.section_id" required class="form-input">
-                            <option value="" disabled>اختر الشعبة...</option>
-                            <option v-for="sec in availableSectionsForNewStudent" :key="sec.id" :value="sec.id">{{ sec.name }}</option>
-                          </select>
+                          <CustomSelect 
+                            v-model="newStudent.section_id" 
+                            :options="availableSectionsForNewStudentOptions" 
+                            placeholder="اختر الشعبة..." 
+                            width="100%" 
+                          />
                         </div>
                       </div>
                       <button type="submit" class="creation-submit-btn">تسجيل الطالب بقاعدة البيانات 🚀</button>
@@ -1468,10 +1611,12 @@
                     <form @submit.prevent="handleCreateSubjectFromPage" class="creation-form-body">
                       <div class="form-group">
                         <label class="form-label">اختر الصف الدراسي *</label>
-                        <select v-model="newSubjectForm.grade_id" required class="form-input">
-                          <option value="" disabled>اختر الصف...</option>
-                          <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-                        </select>
+                        <CustomSelect 
+                          v-model="newSubjectForm.grade_id" 
+                          :options="gradeModalOptions" 
+                          placeholder="اختر الصف..." 
+                          width="100%" 
+                        />
                       </div>
                       <div class="form-group">
                         <label class="form-label">اسم المادة الدراسية *</label>
@@ -1489,31 +1634,52 @@
           <!-- RIGHT SIDEBAR DESKTOP WIDGETS (1fr) -->
           <div v-if="activeModule !== 'analytics'" class="desktop-content-right">
             <!-- Sidebar Widget 1: Quick Admin Actions -->
-            <div class="desktop-card-box widget-card">
-              <h4 class="widget-title">⚡ إجراءات إدارية سريعة</h4>
+            <div class="desktop-card-box widget-card quick-actions-card">
+              <h4 class="widget-title">
+                <span class="widget-icon-pill">⚡</span>
+                إجراءات إدارية سريعة
+              </h4>
               <div class="quick-actions-list">
+                <!-- Action 1: Add New Student -->
                 <button class="quick-action-btn" @click="showAddStudentModal = true">
-                  <span class="qa-icon">🎓</span>
-                  <div class="qa-text">
-                    <span class="qa-main">إضافة طالب جديد</span>
-                    <span class="qa-sub">تسجيل طالب وتخصيص الصف</span>
+                  <div class="qa-left-group">
+                    <div class="qa-icon-sq purple">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                    </div>
+                    <div class="qa-text">
+                      <span class="qa-main">إضافة طالب جديد</span>
+                      <span class="qa-sub">تسجيل طالب وتخصيص الصف</span>
+                    </div>
                   </div>
+                  <svg class="qa-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
 
+                <!-- Action 2: Add New Teacher -->
                 <button class="quick-action-btn" @click="showAddTeacherModal = true">
-                  <span class="qa-icon">👨‍🏫</span>
-                  <div class="qa-text">
-                    <span class="qa-main">إضافة معلم جديد</span>
-                    <span class="qa-sub">إنشاء حساب جديد بالمنظومة</span>
+                  <div class="qa-left-group">
+                    <div class="qa-icon-sq emerald">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="qa-text">
+                      <span class="qa-main">إضافة معلم جديد</span>
+                      <span class="qa-sub">إنشاء حساب جديد بالمنظومة</span>
+                    </div>
                   </div>
+                  <svg class="qa-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
 
+                <!-- Action 3: Assign Teacher to Subject -->
                 <button class="quick-action-btn" @click="showAddAssignModal = true">
-                  <span class="qa-icon">🔗</span>
-                  <div class="qa-text">
-                    <span class="qa-main">تكليف معلم بمادة</span>
-                    <span class="qa-sub">ربط المعلم بالشعبة والمادة</span>
+                  <div class="qa-left-group">
+                    <div class="qa-icon-sq indigo">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </div>
+                    <div class="qa-text">
+                      <span class="qa-main">تكليف معلم بمادة</span>
+                      <span class="qa-sub">ربط المعلم بالشعبة والمادة</span>
+                    </div>
                   </div>
+                  <svg class="qa-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
               </div>
             </div>
@@ -1630,17 +1796,21 @@
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">الصف الدراسي *</label>
-            <select v-model="newStudent.grade_id" required class="form-input">
-              <option value="" disabled>اختر الصف...</option>
-              <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="newStudent.grade_id" 
+              :options="gradeModalOptions" 
+              placeholder="اختر الصف..." 
+              width="100%" 
+            />
           </div>
           <div class="form-group">
             <label class="form-label">الشعبة *</label>
-            <select v-model="newStudent.section_id" required class="form-input">
-              <option value="" disabled>اختر الشعبة...</option>
-              <option v-for="sec in availableSectionsForNewStudent" :key="sec.id" :value="sec.id">{{ sec.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="newStudent.section_id" 
+              :options="availableSectionsForNewStudentOptions" 
+              placeholder="اختر الشعبة..." 
+              width="100%" 
+            />
           </div>
         </div>
       </form>
@@ -1660,27 +1830,31 @@
       <form @submit.prevent="handleTransferStudent" class="teacher-create-form">
         <div class="form-group">
           <label class="form-label">اختر الطالب المراد نقله *</label>
-          <select v-model="transferForm.student_id" required class="form-input">
-            <option value="" disabled>اختر طالب...</option>
-            <option v-for="st in students" :key="st.id" :value="st.id">
-              {{ st.full_name }} (كود: {{ st.student_code }} - {{ st.grade_name }})
-            </option>
-          </select>
+          <CustomSelect 
+            v-model="transferForm.student_id" 
+            :options="studentTransferOptions" 
+            placeholder="اختر طالب..." 
+            width="100%" 
+          />
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">الصف الدراسي الجديد *</label>
-            <select v-model="transferForm.grade_id" required class="form-input">
-              <option value="" disabled>اختر الصف الجديد...</option>
-              <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="transferForm.grade_id" 
+              :options="gradeModalOptions" 
+              placeholder="اختر الصف الجديد..." 
+              width="100%" 
+            />
           </div>
           <div class="form-group">
             <label class="form-label">الشعبة الجديدة *</label>
-            <select v-model="transferForm.section_id" required class="form-input">
-              <option value="" disabled>اختر الشعبة الجديدة...</option>
-              <option v-for="sec in availableSectionsForTransfer" :key="sec.id" :value="sec.id">{{ sec.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="transferForm.section_id" 
+              :options="availableSectionsForTransferOptions" 
+              placeholder="اختر الشعبة الجديدة..." 
+              width="100%" 
+            />
           </div>
         </div>
       </form>
@@ -1715,17 +1889,21 @@
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">الصف الدراسي *</label>
-            <select v-model="editStudentForm.grade_id" required class="form-input">
-              <option value="" disabled>اختر الصف...</option>
-              <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="editStudentForm.grade_id" 
+              :options="gradeModalOptions" 
+              placeholder="اختر الصف..." 
+              width="100%" 
+            />
           </div>
           <div class="form-group">
             <label class="form-label">الشعبة *</label>
-            <select v-model="editStudentForm.section_id" required class="form-input">
-              <option value="" disabled>اختر الشعبة...</option>
-              <option v-for="sec in availableSectionsForEdit" :key="sec.id" :value="sec.id">{{ sec.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="editStudentForm.section_id" 
+              :options="availableSectionsForEditOptions" 
+              placeholder="اختر الشعبة..." 
+              width="100%" 
+            />
           </div>
         </div>
       </form>
@@ -1772,32 +1950,40 @@
       <form @submit.prevent="handleAddAssign" class="teacher-create-form">
         <div class="form-group">
           <label class="form-label">اختر المعلم *</label>
-          <select v-model="newAssign.teacher_id" required class="form-input">
-            <option value="" disabled>اختر معلماً...</option>
-            <option v-for="t in teachers" :key="t.id" :value="t.id">{{ t.full_name }}</option>
-          </select>
+          <CustomSelect 
+            v-model="newAssign.teacher_id" 
+            :options="teacherModalOptions" 
+            placeholder="اختر معلماً..." 
+            width="100%" 
+          />
         </div>
         <div class="form-group">
           <label class="form-label">الصف الدراسي *</label>
-          <select v-model="newAssign.grade_id" required class="form-input">
-            <option value="" disabled>اختر الصف...</option>
-            <option v-for="g in grades" :key="g.id" :value="g.id">{{ g.name }}</option>
-          </select>
+          <CustomSelect 
+            v-model="newAssign.grade_id" 
+            :options="gradeModalOptions" 
+            placeholder="اختر الصف..." 
+            width="100%" 
+          />
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">المادة الدراسية *</label>
-            <select v-model="newAssign.subject_id" required class="form-input">
-              <option value="" disabled>اختر المادة...</option>
-              <option v-for="sub in availableSubjectsForAssign" :key="sub.id" :value="sub.id">{{ sub.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="newAssign.subject_id" 
+              :options="availableSubjectsForAssignOptions" 
+              placeholder="اختر المادة..." 
+              width="100%" 
+            />
           </div>
           <div class="form-group">
             <label class="form-label">الشعبة *</label>
-            <select v-model="newAssign.section_id" required class="form-input">
-              <option value="" disabled>اختر الشعبة...</option>
-              <option v-for="sec in availableSectionsForAssign" :key="sec.id" :value="sec.id">{{ sec.name }}</option>
-            </select>
+            <CustomSelect 
+              v-model="newAssign.section_id" 
+              :options="availableSectionsForAssignOptions" 
+              placeholder="اختر الشعبة..." 
+              width="100%" 
+            />
           </div>
         </div>
       </form>
@@ -1852,6 +2038,7 @@ import { ref, onMounted, computed, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import ShadcnDialog from '../../components/common/ShadcnDialog.vue';
 import ShadcnDrawer from '../../components/common/ShadcnDrawer.vue';
+import CustomSelect from '../../components/common/CustomSelect.vue';
 import api from '../../services/api';
 
 import studentImg from '../../assets/student_attendance_3d.png';
@@ -1863,9 +2050,74 @@ import schoolImg from '../../assets/school_building_3d.png';
 const router = useRouter();
 const loading = ref(true);
 const activeModule = ref('classrooms');
+const showProfileDropdown = ref(false);
 
 const selectedScheduleSectionId = ref('');
 const selectedScheduleDay = ref('الخميس');
+
+const gradeOptions = computed(() => [
+  { value: '', label: '🏫 جميع الصفوف' },
+  ...grades.value.map(g => ({ value: g.id, label: g.name }))
+]);
+
+const gradeModalOptions = computed(() => 
+  grades.value.map(g => ({ value: g.id, label: g.name }))
+);
+
+const studentSectionOptions = computed(() => {
+  const opts = [{ value: '', label: '🏢 جميع الشعب' }];
+  for (const g of grades.value) {
+    if (g.sections) {
+      for (const sec of g.sections) {
+        opts.push({ value: sec.id, label: `${g.name} - الشعبة ${sec.name}` });
+      }
+    }
+  }
+  return opts;
+});
+
+const scheduleSectionOptions = computed(() => {
+  const opts = [{ value: '', label: '🏫 جميع الشعب (جدول اليوم الحالي)' }];
+  for (const g of grades.value) {
+    if (g.sections) {
+      for (const sec of g.sections) {
+        opts.push({ value: sec.id, label: `${g.name} - الشعبة ${sec.name}` });
+      }
+    }
+  }
+  return opts;
+});
+
+const availableSectionsForNewStudentOptions = computed(() => 
+  availableSectionsForNewStudent.value.map(sec => ({ value: sec.id, label: sec.name }))
+);
+
+const studentTransferOptions = computed(() => 
+  students.value.map(st => ({ 
+    value: st.id, 
+    label: `${st.full_name} (كود: ${st.student_code} - ${st.grade_name || ''})` 
+  }))
+);
+
+const availableSectionsForTransferOptions = computed(() => 
+  availableSectionsForTransfer.value.map(sec => ({ value: sec.id, label: sec.name }))
+);
+
+const availableSectionsForEditOptions = computed(() => 
+  availableSectionsForEdit.value.map(sec => ({ value: sec.id, label: sec.name }))
+);
+
+const teacherModalOptions = computed(() => 
+  teachers.value.map(t => ({ value: t.id, label: t.full_name }))
+);
+
+const availableSubjectsForAssignOptions = computed(() => 
+  availableSubjectsForAssign.value.map(s => ({ value: s.id, label: s.name }))
+);
+
+const availableSectionsForAssignOptions = computed(() => 
+  availableSectionsForAssign.value.map(s => ({ value: s.id, label: s.name }))
+);
 
 const selectedScheduleSectionObj = computed(() => {
   if (!selectedScheduleSectionId.value) return null;
