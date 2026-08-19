@@ -25,11 +25,11 @@
 
 | نوع المهمة المطلوبة | الملفات الإلزامية للقراءة والفهم أولاً |
 | :--- | :--- |
-| **تطوير أو تعديل شاشات الطالب** | 1. [**`STUDENT_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md)<br>2. [**`FRONTEND_OVERVIEW.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/FRONTEND_OVERVIEW.md)<br>3. `design/DESIGN_SPEC.md` (لتطبيق كروت iOS والزجاج الضبابي) |
-| **تطوير أو تعديل شاشات المعلم** | 1. [**`TEACHER_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md)<br>2. [**`TEACHER_API_REFERENCE.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/TEACHER_API_REFERENCE.md) |
-| **تطوير أو تعديل لوحة تحكم الإدارة** | 1. [**`ADMIN_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md)<br>2. [**`ADMIN_API_REFERENCE.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/ADMIN_API_REFERENCE.md)<br>3. `template/ADMIN_UI_SPECIFICATIONS.md` |
-| **تطوير أو تعديل مسارات الـ Backend** | 1. [**`BACKEND_ARCHITECTURE.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/BACKEND_ARCHITECTURE.md)<br>2. [**`DATABASE_AND_MIGRATIONS.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/DATABASE_AND_MIGRATIONS.md)<br>3. [**`AUTHENTICATION_AND_MIDDLEWARES.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/AUTHENTICATION_AND_MIDDLEWARES.md) |
-| **تعديل قواعد البيانات أو العلاقات** | 1. [**`DATABASE_DESIGN.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/DATABASE_DESIGN.md)<br>2. [**`BUSINESS_RULES.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/BUSINESS_RULES.md)<br>3. [**`DATABASE_AND_MIGRATIONS.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/backend/DATABASE_AND_MIGRATIONS.md) |
+| **تطوير أو تعديل شاشات الطالب** | 1. [**`STUDENT_FRONTEND_SPEC.md`**](./frontend/STUDENT_FRONTEND_SPEC.md)<br>2. [**`FRONTEND_OVERVIEW.md`**](./frontend/FRONTEND_OVERVIEW.md)<br>3. `design/DESIGN_SPEC.md` (لتطبيق كروت iOS والزجاج الضبابي) |
+| **تطوير أو تعديل شاشات المعلم** | 1. [**`TEACHER_FRONTEND_SPEC.md`**](./frontend/TEACHER_FRONTEND_SPEC.md)<br>2. [**`TEACHER_API_REFERENCE.md`**](./backend/TEACHER_API_REFERENCE.md) |
+| **تطوير أو تعديل لوحة تحكم الإدارة** | 1. [**`ADMIN_FRONTEND_SPEC.md`**](./frontend/ADMIN_FRONTEND_SPEC.md)<br>2. [**`ADMIN_API_REFERENCE.md`**](./backend/ADMIN_API_REFERENCE.md)<br>3. `template/ADMIN_UI_SPECIFICATIONS.md` |
+| **تطوير أو تعديل مسارات الـ Backend** | 1. [**`BACKEND_ARCHITECTURE.md`**](./backend/BACKEND_ARCHITECTURE.md)<br>2. [**`DATABASE_AND_MIGRATIONS.md`**](./backend/DATABASE_AND_MIGRATIONS.md)<br>3. [**`AUTHENTICATION_AND_MIDDLEWARES.md`**](./backend/AUTHENTICATION_AND_MIDDLEWARES.md) |
+| **تعديل قواعد البيانات أو العلاقات** | 1. [**`DATABASE_DESIGN.md`**](./DATABASE_DESIGN.md)<br>2. [**`BUSINESS_RULES.md`**](./BUSINESS_RULES.md)<br>3. [**`DATABASE_AND_MIGRATIONS.md`**](./backend/DATABASE_AND_MIGRATIONS.md) |
 
 ---
 

@@ -175,3 +175,23 @@ gantt
   3. فحص أمان رفع الملفات وحماية الروابط ومنع تسريب بيانات الفصول الأخرى.
   4. مراجعة وثائق المشروع في `project-documentation/` للتأكد من مطابقتها التامة للواقع البرمجي.
 * **المخرجات النهائية:** نظام متكامل، مستقر، ومختبر بنسبة 100% جاهز للتسليم والتشغيل الفعلي.
+
+---
+
+## 2. جدول ربط المراحل الـ9 بالخطوات الـ12 (Phase ↔ Step Mapping — Single Source of Order)
+
+> **ملاحظة للـ AI وللمطوّر:** التنفيذ يسير دائماً بهذا الترتيب. لا تُنفّذ Step قبل اكتمال Phase التابعة لها.  
+> التفاصيل الكاملة لكل Step موجودة في [`IMPLEMENTATION_STEPS.md`](./IMPLEMENTATION_STEPS.md).
+
+| المرحلة (Phase) | عنوان المرحلة | الخطوات المقابلة (Steps) | Gate الاجتياز |
+| :---: | :--- | :--- | :--- |
+| **Phase 1** | تهيئة البيئة والأساسات | **Step 1** — Backend Workspace Setup | خادم يعمل على منفذ 5000 |
+| **Phase 2** | طبقة البيانات والترحيل | **Step 2** — DB Adapter & Migrations<br>**Step 3** — Database Seeding | `school.sqlite` + بيانات ليبيا التجريبية |
+| **Phase 3** | المصادقة والأمان | **Step 4** — JWT & RBAC Middleware<br>**Step 5** — Auth Controller & Routes | دخول الأدوار الثلاثة + Payload صحيح |
+| **Phase 4** | مسارات الأعمال | **Step 6** — Domain Controllers & Uploads<br>**Step 7** — Server Assembly | 34 مساراً يعملون + رفع الملفات |
+| **Phase 5** | تأسيس الواجهة الأمامية | **Step 8** — Frontend Core & Tokens<br>**Step 9** — Common UI & Guards | شاشة الدخول + حراس المسارات |
+| **Phase 6** | واجهات الطالب | **Step 10** — Student iOS Views | الطالب يرى واجباته وحلوله وجدوله |
+| **Phase 7** | واجهات المعلم | **Step 11** — Teacher Publishing Portal | المعلم ينشر → الطالب يرى فوراً |
+| **Phase 8** | لوحة الإدارة | **Step 12** — Admin SaaS Dashboard | الإدارة تبني الهيكل والجدول كاملاً |
+| **Phase 9** | التكامل والاختبار | **15 سيناريو E2E** في `DEFINITION_OF_DONE.md §7` | اجتياز 15/15 سيناريو |
+

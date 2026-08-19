@@ -50,22 +50,22 @@
 
 | المستخدم | الصفحة / المسار | الهدف الوظيفي | الـ APIs المستدعاة من الخادم | المرجع التفصيلي |
 | :--- | :--- | :--- | :--- | :---: |
-| **الجميع** | **بوابة الدخول (`/login`)** | تسجيل دخول موحد للطالب والمعلم والإدارة بتبديل كبسولي فوري | `POST /api/auth/login/*` | [AUTH_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/AUTH_FRONTEND_SPEC.md) |
-| **الطالب** | **الرئيسية (`/student`)** | بطاقة الهيرو، شريط تقويم الأيام، وشبكة البطاقات الـ 4 الكبرى | `GET /api/student/tasks` | [STUDENT_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md) |
-| **الطالب** | **الواجبات (`/student/homeworks`)** | استعراض الواجبات المجمعة بالأيام، تحميل المرفقات، ودرج الحل النموذجي | `GET /api/student/tasks?task_type=HOMEWORK` | [STUDENT_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md) |
-| **الطالب** | **الامتحانات (`/student/exams`)** | جدول الاختبارات الشهرية ومواعيدها والنماذج الاسترشادية | `GET /api/student/tasks?task_type=EXAM` | [STUDENT_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md) |
-| **الطالب** | **الجدول الأسبوعي (`/student/schedule`)** | توزيع الحصص الـ 6 عبر أيام الأسبوع (الأحد-الخميس) والمواد والمعلمين | `GET /api/student/schedule` | [STUDENT_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md) |
-| **الطالب** | **المواد الدراسية (`/student/subjects`)** | شبكة المواد المقررة مع أسماء المعلمين المخصصين لشعبة الطالب | `GET /api/student/subjects` | [STUDENT_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md) |
-| **المعلم** | **الرئيسية (`/teacher`)** | ملخص نشاط المعلم، إحصائيات المهام، وشريط الفصول المسندة | `GET /api/teacher/assignments`<br>`GET /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md) |
-| **المعلم** | **إدارة الواجبات (`/teacher/homeworks`)** | نشر وتعديل وحذف الواجبات، رفع الملفات، وإرفاق الحلول النموذجية | `GET /api/teacher/tasks`<br>`POST/PUT/DELETE /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md) |
-| **المعلم** | **إدارة الامتحانات (`/teacher/exams`)** | جدولة مواعيد الاختبارات ورفع نماذج الأسئلة والإجابة | `GET /api/teacher/tasks?task_type=EXAM`<br>`POST/DELETE /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md) |
-| **المعلم** | **جدول الحصص (`/teacher/schedule`)** | استعراض الحصص الخاصة بالمعلم فقط عبر أيام الأسبوع | `GET /api/admin/schedule` | [TEACHER_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md) |
-| **المعلم** | **الفصول والمواد (`/teacher/subjects`)** | استعراض نصاب الحصص والشعب والطلاب المكلف بتدريسهم | `GET /api/teacher/assignments` | [TEACHER_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md) |
-| **الإدارة** | **الإحصائيات و 3D KPI (`/admin`)** | 4 بطاقات تفاعلية بمجسمات ثلاثية الأبعاد لحضور الطلاب والمعلمين | `GET /api/admin/stats` | [ADMIN_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md) |
-| **الإدارة** | **الهيكل والصفوف (`GradesPanel`)** | لوحة المستويات 1-9، لوحة تفاصيل الصف، وتفاصيل الشعبة والجدول | `GET/POST/DELETE /api/admin/grades`<br>`/sections`, `/subjects` | [ADMIN_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md) |
-| **الإدارة** | **سجلات وملفات الطلاب (`StudentPanel`)** | السجل العام للطلاب، شاشة الملف التفصيلي للطالب، ونقل الطلاب | `GET/POST/PUT/DELETE /api/admin/students` | [ADMIN_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md) |
-| **الإدارة** | **المعلمين والتكليفات (`TeacherPanel`)** | قائمة المعلمين، الملف الأكاديمي للمعلم، وإسناد وإزالة التكليفات | `GET/POST/DELETE /api/admin/teachers`<br>`/assignments` | [ADMIN_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md) |
-| **الإدارة** | **الجدول الأسبوعي (`TimetableGrid`)** | شبكة تفاعلية (5 أيام × 6 حصص) لتخصيص وتحديث وتفريغ الحصص | `GET/POST/DELETE /api/admin/schedule` | [ADMIN_FRONTEND_SPEC.md](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md) |
+| **الجميع** | **بوابة الدخول (`/login`)** | تسجيل دخول موحد للطالب والمعلم والإدارة بتبديل كبسولي فوري | `POST /api/auth/login/*` | [AUTH_FRONTEND_SPEC.md](./AUTH_FRONTEND_SPEC.md) |
+| **الطالب** | **الرئيسية (`/student`)** | بطاقة الهيرو، شريط تقويم الأيام، وشبكة البطاقات الـ 4 الكبرى | `GET /api/student/tasks` | [STUDENT_FRONTEND_SPEC.md](./STUDENT_FRONTEND_SPEC.md) |
+| **الطالب** | **الواجبات (`/student/homeworks`)** | استعراض الواجبات المجمعة بالأيام، تحميل المرفقات، ودرج الحل النموذجي | `GET /api/student/tasks?task_type=HOMEWORK` | [STUDENT_FRONTEND_SPEC.md](./STUDENT_FRONTEND_SPEC.md) |
+| **الطالب** | **الامتحانات (`/student/exams`)** | جدول الاختبارات الشهرية ومواعيدها والنماذج الاسترشادية | `GET /api/student/tasks?task_type=EXAM` | [STUDENT_FRONTEND_SPEC.md](./STUDENT_FRONTEND_SPEC.md) |
+| **الطالب** | **الجدول الأسبوعي (`/student/schedule`)** | توزيع الحصص الـ 6 عبر أيام الأسبوع (الأحد-الخميس) والمواد والمعلمين | `GET /api/student/schedule` | [STUDENT_FRONTEND_SPEC.md](./STUDENT_FRONTEND_SPEC.md) |
+| **الطالب** | **المواد الدراسية (`/student/subjects`)** | شبكة المواد المقررة مع أسماء المعلمين المخصصين لشعبة الطالب | `GET /api/student/subjects` | [STUDENT_FRONTEND_SPEC.md](./STUDENT_FRONTEND_SPEC.md) |
+| **المعلم** | **الرئيسية (`/teacher`)** | ملخص نشاط المعلم، إحصائيات المهام، وشريط الفصول المسندة | `GET /api/teacher/assignments`<br>`GET /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](./TEACHER_FRONTEND_SPEC.md) |
+| **المعلم** | **إدارة الواجبات (`/teacher/homeworks`)** | نشر وتعديل وحذف الواجبات، رفع الملفات، وإرفاق الحلول النموذجية | `GET /api/teacher/tasks`<br>`POST/PUT/DELETE /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](./TEACHER_FRONTEND_SPEC.md) |
+| **المعلم** | **إدارة الامتحانات (`/teacher/exams`)** | جدولة مواعيد الاختبارات ورفع نماذج الأسئلة والإجابة | `GET /api/teacher/tasks?task_type=EXAM`<br>`POST/DELETE /api/teacher/tasks` | [TEACHER_FRONTEND_SPEC.md](./TEACHER_FRONTEND_SPEC.md) |
+| **المعلم** | **جدول الحصص (`/teacher/schedule`)** | استعراض الحصص الخاصة بالمعلم فقط عبر أيام الأسبوع | `GET /api/admin/schedule` | [TEACHER_FRONTEND_SPEC.md](./TEACHER_FRONTEND_SPEC.md) |
+| **المعلم** | **الفصول والمواد (`/teacher/subjects`)** | استعراض نصاب الحصص والشعب والطلاب المكلف بتدريسهم | `GET /api/teacher/assignments` | [TEACHER_FRONTEND_SPEC.md](./TEACHER_FRONTEND_SPEC.md) |
+| **الإدارة** | **الإحصائيات و 3D KPI (`/admin`)** | 4 بطاقات تفاعلية بمجسمات ثلاثية الأبعاد لحضور الطلاب والمعلمين | `GET /api/admin/stats` | [ADMIN_FRONTEND_SPEC.md](./ADMIN_FRONTEND_SPEC.md) |
+| **الإدارة** | **الهيكل والصفوف (`GradesPanel`)** | لوحة المستويات 1-9، لوحة تفاصيل الصف، وتفاصيل الشعبة والجدول | `GET/POST/DELETE /api/admin/grades`<br>`/sections`, `/subjects` | [ADMIN_FRONTEND_SPEC.md](./ADMIN_FRONTEND_SPEC.md) |
+| **الإدارة** | **سجلات وملفات الطلاب (`StudentPanel`)** | السجل العام للطلاب، شاشة الملف التفصيلي للطالب، ونقل الطلاب | `GET/POST/PUT/DELETE /api/admin/students` | [ADMIN_FRONTEND_SPEC.md](./ADMIN_FRONTEND_SPEC.md) |
+| **الإدارة** | **المعلمين والتكليفات (`TeacherPanel`)** | قائمة المعلمين، الملف الأكاديمي للمعلم، وإسناد وإزالة التكليفات | `GET/POST/DELETE /api/admin/teachers`<br>`/assignments` | [ADMIN_FRONTEND_SPEC.md](./ADMIN_FRONTEND_SPEC.md) |
+| **الإدارة** | **الجدول الأسبوعي (`TimetableGrid`)** | شبكة تفاعلية (5 أيام × 6 حصص) لتخصيص وتحديث وتفريغ الحصص | `GET/POST/DELETE /api/admin/schedule` | [ADMIN_FRONTEND_SPEC.md](./ADMIN_FRONTEND_SPEC.md) |
 
 ---
 
@@ -105,7 +105,7 @@ flowchart TD
 ---
 
 ## 6. فهرس ملفات المواصفات التفصيلية:
-* 🎒 [**`STUDENT_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/STUDENT_FRONTEND_SPEC.md): الدليل التفصيلي لواجهات الطالب وسيناريوهات الكروت والحل النموذجي.
-* 👨‍🏫 [**`TEACHER_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/TEACHER_FRONTEND_SPEC.md): الدليل التفصيلي لواجهات المعلم وسيناريوهات النشر وإدارة الفصول.
-* ⚙️ [**`ADMIN_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/ADMIN_FRONTEND_SPEC.md): الدليل التفصيلي للوحة تحكم الإدارة وموديولات الهيكل والطلاب والمعلمين والجدول.
-* 🔐 [**`AUTH_FRONTEND_SPEC.md`**](file:///c:/Users/alhareth/Desktop/work/school/project-documentation/frontend/AUTH_FRONTEND_SPEC.md): دليل بوابة تسجيل الدخول الموحدة والنماذج الخاصة بكل دور.
+* 🎒 [**`STUDENT_FRONTEND_SPEC.md`**](./STUDENT_FRONTEND_SPEC.md): الدليل التفصيلي لواجهات الطالب وسيناريوهات الكروت والحل النموذجي.
+* 👨‍🏫 [**`TEACHER_FRONTEND_SPEC.md`**](./TEACHER_FRONTEND_SPEC.md): الدليل التفصيلي لواجهات المعلم وسيناريوهات النشر وإدارة الفصول.
+* ⚙️ [**`ADMIN_FRONTEND_SPEC.md`**](./ADMIN_FRONTEND_SPEC.md): الدليل التفصيلي للوحة تحكم الإدارة وموديولات الهيكل والطلاب والمعلمين والجدول.
+* 🔐 [**`AUTH_FRONTEND_SPEC.md`**](./AUTH_FRONTEND_SPEC.md): دليل بوابة تسجيل الدخول الموحدة والنماذج الخاصة بكل دور.
